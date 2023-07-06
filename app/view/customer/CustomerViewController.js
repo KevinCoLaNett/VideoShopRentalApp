@@ -1,22 +1,24 @@
 Ext.define('VideoShopRental.view.customer.CustomerViewController', {
     extend: 'Ext.app.ViewController',
 
-    alias: 'controller.customerviewcontroller', // used to instantiate in MainView.js
+    alias: 'controller.customerviewcontroller', // used to instantiate in CustomerView.js
 
-    onAddButtonClick: function() {
+    onAddCustomerClick: function () {
         var formWindow = Ext.create('Ext.window.Window', {
             title: 'Add Customer',
-            width: 400,
-            height: 200,
             layout: 'fit',
+            width: 400,
+            padding: 10,
             modal: true,
+            resizable: false, // Disable window resizing
+            //draggable: false, // Disable window movement
             items: [
-                // Your form component(s) configuration
+                {
+                    xtype: 'customerformview' // Reference the form component
+                }
             ]
         });
 
         formWindow.show();
     }
-
-   
 });

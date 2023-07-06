@@ -4,5 +4,11 @@ Ext.define('VideoShopRental.view.movie.MovieViewModel', {
 
     requires: [
          'VideoShopRental.model.Movie'
-    ]
+    ],
+
+    stores: {
+        movies: {
+            type: 'movie' // Reference the UserStore defined in store
+        }
+    }
 });

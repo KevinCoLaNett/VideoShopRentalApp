@@ -1,4 +1,4 @@
-Ext.define('VideoShopRental.view.CustomerView', {
+Ext.define('VideoShopRental.view.customer.CustomerView', {
     extend: 'Ext.grid.Panel',
     xtype: 'customer',
     requires: [
@@ -16,43 +16,32 @@ Ext.define('VideoShopRental.view.CustomerView', {
         type: 'customer'
     },
 
-    controller: 'customerviewcontroller',
+    bind: {
+        store: '{customers}',
+        //selection: '{currentUser}'
+    },
 
-    tbar: [
-        {
-            xtype: 'button',
-            text: 'Add New Customer',
-            iconCls: 'x-fa fa-plus',
-            reference: 'btnAddCustomer',
-            handler: 'onAddButtonClick'
-        }
-    ],
+    controller: 'customerviewcontroller',
+    viewModel: 'customerviewmodel',
 
     // tbar: [
     //     {
     //         xtype: 'button',
-    //         itemId: 'add',
-    //         text: 'Add',
-    //         iconcls: 'fa-plus',
-    //         reference: 'btnaddcustomer',
-    //         handler: 'addPopup'
-    //     },
-        // {
-        //     xtype: 'button',
-        //     itemId: 'edit',
-        //     text: 'Edit',
-        //     iconcls: 'fa-pencil',
-        //     reference: 'btnedit',
-        //     handler: 'updatePopup'
-        // },
-        // {
-        //     xtype: 'button',
-        //     itemId: 'delete',
-        //     text: 'Delete',
-        //     iconcls: 'fa-thrash',
-        //     reference: 'btndelete'
-        // }
+    //         text: 'Add New Customer',
+    //         iconCls: 'x-fa fa-plus',
+    //         //reference: 'btnAddCustomer',
+    //         handler: 'onAddButtonClick'
+    //     }
     // ],
+
+    dockedItems: [{
+        xtype: 'toolbar',
+        dock: 'top',
+        items: [{
+            text: 'Add New Customer',
+            handler: 'onAddCustomerClick'
+        }]
+    }],
 
     columns: [
         { text: 'Name', dataIndex: 'Name', flex: 1 },

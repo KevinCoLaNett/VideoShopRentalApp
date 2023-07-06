@@ -16,9 +16,9 @@ Ext.define('VideoShopRental.view.main.Main', {
         'VideoShopRental.view.main.MainController',
         'VideoShopRental.view.main.MainModel',
 
-        'VideoShopRental.view.MovieView',
-        'VideoShopRental.view.CustomerView',
-        'VideoShopRental.view.RentalView'
+        'VideoShopRental.view.movie.MovieView',
+        'VideoShopRental.view.customer.CustomerView',
+        'VideoShopRental.view.rental.RentalView'
     ],
 
     controller: 'main',

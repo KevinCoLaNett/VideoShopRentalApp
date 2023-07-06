@@ -1,29 +1,29 @@
-Ext.define('VideoShopRental.view.MovieView', {
+Ext.define('VideoShopRental.view.rental.RentalView', {
     extend: 'Ext.grid.Panel',
-    xtype: 'movie',
+    xtype: 'rental',
     requires: [
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
         'Ext.grid.column.Action',
 
-        'VideoShopRental.store.Movie',
-        'VideoShopRental.view.movie.MovieViewController'
+        'VideoShopRental.store.Rental',
+        'VideoShopRental.view.rental.RentalViewController'
     ],
 
-    title: 'Movies',
+    title: 'Rentals',
 
     store: {
-        type: 'movie'
+        type: 'rental'
     },
 
-    controller: 'movieviewcontroller',
+    controller: 'rentalviewcontroller',
 
     tbar: [
         {
             xtype: 'button',
-            text: 'Add New Movie',
+            text: 'Add New Rental',
             iconCls: 'x-fa fa-plus',
-            reference: 'btnAddMovie',
+            reference: 'btnAddRental',
             handler: 'onAddButtonClick'
         }
     ],
@@ -34,7 +34,7 @@ Ext.define('VideoShopRental.view.MovieView', {
     //         itemId: 'add',
     //         text: 'Add',
     //         iconcls: 'fa-plus',
-    //         reference: 'btnaddmovie',
+    //         reference: 'btnaddrental',
     //         handler: 'addPopup'
     //     },
     //     {
@@ -55,12 +55,10 @@ Ext.define('VideoShopRental.view.MovieView', {
     // ],
 
     columns: [
-        { text: 'Title', dataIndex: 'Title', flex: 1 },
-        { text: 'Genre', dataIndex: 'Genre', flex: 1 },
-        { text: 'Release Date', dataIndex: 'ReleaseDate', flex: 1 },
-        { text: 'Rental Price', dataIndex: 'RentalPrice', flex: 1 },
-        { text: 'Number In Stock', dataIndex: 'NumberInStock', flex: 1 },
-        { text: 'Number Available', dataIndex: 'NumberAvailable', flex: 1 },
+        { text: 'Rental Date', dataIndex: 'RentalDate', flex: 1 },
+        { text: 'Due Date', dataIndex: 'DueDate', flex: 1 },
+        { text: 'Date Returned', dataIndex: 'DateReturned', flex: 1 },
+        { text: 'Customer ID', dataIndex: 'CustomerId', flex: 0.5 },
         {
             xtype: 'actioncolumn',
             text: 'Action',

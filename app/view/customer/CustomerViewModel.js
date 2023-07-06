@@ -4,5 +4,11 @@ Ext.define('VideoShopRental.view.customer.CustomerViewModel', {
 
     requires: [
          'VideoShopRental.model.Customer'
-    ]
+    ],
+
+    stores: {
+        customers: {
+            type: 'customer' // Reference the UserStore defined in store
+        }
+    }
 });

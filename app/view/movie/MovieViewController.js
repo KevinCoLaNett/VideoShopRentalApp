@@ -3,15 +3,19 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
 
     alias: 'controller.movieviewcontroller', // used to instantiate in MainView.js
 
-    onAddButtonClick: function() {
+    onAddMovieClick: function () {
         var formWindow = Ext.create('Ext.window.Window', {
             title: 'Add Movie',
-            width: 400,
-            height: 200,
             layout: 'fit',
+            width: 400,
+            padding: 10,
             modal: true,
+            resizable: false, // Disable window resizing
+            //draggable: false, // Disable window movement
             items: [
-                // Your form component(s) configuration
+                {
+                    xtype: 'movieformview' // Reference the form component
+                }
             ]
         });
 
