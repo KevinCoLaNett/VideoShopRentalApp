@@ -1,6 +1,6 @@
 Ext.define('VideoShopRental.view.movie.MovieViewModel', {
     extend: 'Ext.app.ViewModel',
-    alias: 'viewmodel.movieviewmodel',       // referenced in MainView.js
+    alias: 'viewmodel.movieviewmodel',       // referenced in MovieView.js
 
     requires: [
          'VideoShopRental.model.Movie'
@@ -8,7 +8,7 @@ Ext.define('VideoShopRental.view.movie.MovieViewModel', {
 
     stores: {
         movies: {
-            type: 'movie' // Reference the UserStore defined in store
+            type: 'movie' // Reference the Movie defined in store
         }
     }
 });

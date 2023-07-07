@@ -4,8 +4,8 @@ Ext.define('VideoShopRental.model.Movie', {
     fields: [
         {name: 'Title', type: 'string'},
         {name: 'Genre', type: 'string'},
-        {name: 'ReleaseDate', type: 'date'},
-        {name: 'RentalPrice', type: 'float'},
+        {name: 'ReleaseDate', type: 'date', dateFormat: 'Y-m-d g:i A'},
+        {name: 'RentalPrice', type: 'number', precision: 10, scale: 2},
         {name: 'NumberInStock', type: 'int'},
         {name: 'NumberAvailable', type: 'int'}
     ]

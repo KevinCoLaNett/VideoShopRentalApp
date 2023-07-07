@@ -32,8 +32,9 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
             allowBlank: false
         }, {
             xtype: 'datefield',
-            fieldLabel: 'Realease Date',
-            name: 'RealeaseDate',
+            format: 'Y-m-d g:i A',
+            fieldLabel: 'Release Date',
+            name: 'ReleaseDate',
             allowBlank: false,
             maxValue: new Date()
         },

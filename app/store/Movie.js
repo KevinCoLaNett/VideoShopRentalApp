@@ -3,6 +3,8 @@ Ext.define('VideoShopRental.store.Movie', {
 
   alias: 'store.movie',
 
+  storeId: 'moviestore',
+
   model: 'VideoShopRental.model.Movie',
 
   // proxy: {
@@ -15,7 +17,7 @@ Ext.define('VideoShopRental.store.Movie', {
 
   proxy: {
     type: 'rest',
-    url: 'https://localhost:44348/api/Movies',
+    //url: 'https://localhost:44348/api/Movies',
     reader: {
       type: 'json',
       rootProperty: 'data'
@@ -25,10 +27,10 @@ Ext.define('VideoShopRental.store.Movie', {
       writeAllFields: true
     },
     api: {
-      create: '/api/Movies',
-      read: '/api/Movies',
-      update: '/api/Movies',
-      destroy: '/api/Movies'
+      create: 'https://localhost:44348/api/Movies',
+      read: 'https://localhost:44348/api/Movies',
+      update: 'https://localhost:44348/api/Movies',
+      destroy: 'https://localhost:44348/api/Movies'
     }
   },
 

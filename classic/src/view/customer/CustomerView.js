@@ -1,6 +1,7 @@
 Ext.define('VideoShopRental.view.customer.CustomerView', {
     extend: 'Ext.grid.Panel',
     xtype: 'customer',
+    itemId: 'customerGridId',
     requires: [
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
@@ -18,30 +19,29 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
 
     bind: {
         store: '{customers}',
-        //selection: '{currentUser}'
     },
 
     controller: 'customerviewcontroller',
-    viewModel: 'customerviewmodel',
+    //viewModel: 'customerviewmodel',
 
-    // tbar: [
-    //     {
-    //         xtype: 'button',
-    //         text: 'Add New Customer',
-    //         iconCls: 'x-fa fa-plus',
-    //         //reference: 'btnAddCustomer',
-    //         handler: 'onAddButtonClick'
-    //     }
-    // ],
-
-    dockedItems: [{
-        xtype: 'toolbar',
-        dock: 'top',
-        items: [{
+    tbar: [
+        {
+            xtype: 'button',
             text: 'Add New Customer',
+            iconCls: 'x-fa fa-plus',
+            reference: 'btnAddCustomer',
             handler: 'onAddCustomerClick'
-        }]
-    }],
+        }
+    ],
+
+    // dockedItems: [{
+    //     xtype: 'toolbar',
+    //     dock: 'top',
+    //     items: [{
+    //         text: 'Add New Customer',
+    //         handler: 'onAddCustomerClick'
+    //     }]
+    // }],
 
     columns: [
         { text: 'Name', dataIndex: 'Name', flex: 1 },

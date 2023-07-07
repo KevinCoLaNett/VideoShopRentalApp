@@ -8,7 +8,7 @@ Ext.define('VideoShopRental.view.customer.CustomerViewModel', {
 
     stores: {
         customers: {
-            type: 'customer' // Reference the UserStore defined in store
+            type: 'customer' // Reference the Customer defined in store
         }
     }
 });
