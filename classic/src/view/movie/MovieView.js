@@ -1,6 +1,7 @@
 Ext.define('VideoShopRental.view.movie.MovieView', {
     extend: 'Ext.grid.Panel',
     xtype: 'movie',
+    itemId: 'movieGrid',
     requires: [
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
@@ -35,24 +36,28 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
     columns: [
         { text: 'Title', dataIndex: 'Title', flex: 1 },
         { text: 'Genre', dataIndex: 'Genre', flex: 1 },
-        { text: 'Release Date', dataIndex: 'ReleaseDate',  xtype: 'datecolumn', format: 'Y-m-d', flex: 1 },
-        { text: 'Rental Price', dataIndex: 'RentalPrice', flex: 1 },
-        { text: 'Number In Stock', dataIndex: 'NumberInStock', flex: 1 },
-        { text: 'Number Available', dataIndex: 'NumberAvailable', flex: 1 },
+        { text: 'Release Date', dataIndex: 'ReleaseDate', xtype: 'datecolumn', format: 'Y-m-d', flex: 0.5 },
+        { text: 'Rental Price', dataIndex: 'RentalPrice', flex: 0.5 },
+        { text: 'Number In Stock', dataIndex: 'NumberInStock', flex: 0.5 },
+        { text: 'Number Available', dataIndex: 'NumberAvailable', flex: 0.5 },
         {
             xtype: 'actioncolumn',
             text: 'Action',
             menuDisabled: true,
             sortable: false,
-            flex: 0.4,
+            flex: 0.5,
             items: [{
                 xtype: 'button',
                 iconCls: 'x-fa fa-edit',
-                tooltip: 'Edit'
+                tooltip: 'Edit',
+                reference: 'btnEditMovie',
+                handler: 'onEditMovieClick'
             }, {
                 xtype: 'button',
                 iconCls: 'x-fa fa-trash',
-                tooltip: 'Delete'
+                tooltip: 'Delete',
+                reference: 'btnDeleteMovie',
+                handler: 'onDeleteMovieClick'
             }]
         }
     ],

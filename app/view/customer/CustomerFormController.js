@@ -11,7 +11,7 @@ Ext.define('VideoShopRental.view.customer.CustomerFormController', {
         var newCustomer = Ext.create('VideoShopRental.model.Customer');
         newCustomer.set(formValues);
       
-        console.log(newCustomer);
+        //console.log(newCustomer);
         store.add(newCustomer);
       
         store.sync({

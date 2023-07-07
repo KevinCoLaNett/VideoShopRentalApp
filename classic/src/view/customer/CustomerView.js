@@ -57,11 +57,15 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
             items: [{
                 xtype: 'button',
                 iconCls: 'x-fa fa-edit',
-                tooltip: 'Edit'
+                tooltip: 'Edit',
+                reference: 'btnEditCustomer',
+                handler: 'onEditCustomerClick'
             }, {
                 xtype: 'button',
                 iconCls: 'x-fa fa-trash',
-                tooltip: 'Delete'
+                tooltip: 'Delete',
+                reference: 'btnEditCustomer',
+                handler: 'onDeleteCustomerClick'
             }]
         }
     ],

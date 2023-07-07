@@ -12,7 +12,7 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
         newMovie.set(formValues);
       
         store.add(newMovie);
-        console.log(newMovie);
+        //console.log(newMovie);
       
         store.sync({
           success: function(response) {

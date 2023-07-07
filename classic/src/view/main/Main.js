@@ -61,7 +61,7 @@ Ext.define('VideoShopRental.view.main.Main', {
     },
 
     defaults: {
-        bodyPadding: 20,
+        bodyPadding: 10,
         tabConfig: {
             responsiveConfig: {
                 wide: {
