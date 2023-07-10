@@ -8,7 +8,8 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
         'Ext.grid.column.Action',
 
         'VideoShopRental.store.Movie',
-        'VideoShopRental.view.movie.MovieViewController'
+        'VideoShopRental.view.movie.MovieViewController',
+        'VideoShopRental.view.movie.MovieFormView'
     ],
 
     title: 'Movies',
@@ -33,7 +34,16 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
         }
     ],
 
+    items: [
+        {
+            xtype: 'movieformview',
+            reference: 'movieForm',
+            //hidden: true // Initially hidden
+        }
+    ],
+
     columns: [
+        //{ text: 'MovieId', dataIndex: 'MovieId', flex: 1 },
         { text: 'Title', dataIndex: 'Title', flex: 1 },
         { text: 'Genre', dataIndex: 'Genre', flex: 1 },
         { text: 'Release Date', dataIndex: 'ReleaseDate', xtype: 'datecolumn', format: 'Y-m-d', flex: 0.5 },

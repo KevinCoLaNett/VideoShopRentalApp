@@ -94,7 +94,7 @@ Ext.define('VideoShopRental.view.main.Main', {
         title: 'Rental',
         iconCls: 'fa-paperclip',
         items: [{
-            xtype: 'rental'
+            xtype: 'movieformview'
         }]
     }, {
         title: 'Settings',

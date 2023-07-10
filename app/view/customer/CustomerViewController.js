@@ -4,6 +4,8 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
     alias: 'controller.customerviewcontroller', // used to instantiate in CustomerView.js
 
     onAddCustomerClick: function () {
+        var formType = 'add'; // Set the formType value here
+
         var formWindow = Ext.create('Ext.window.Window', {
             title: 'Add Customer',
             layout: 'fit',
@@ -14,7 +16,8 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
             //draggable: false, // Disable window movement
             items: [
                 {
-                    xtype: 'customerformview' // Reference the form component
+                    xtype: 'customerformview', // Reference the form component
+                    formType: formType
                 }
             ]
         });
@@ -22,33 +25,33 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
         formWindow.show();
     },
 
-    onEditCustomerClick: function () {
-        console.log('Edit This Customer');
+    onEditCustomerClick: function (grid, rowIndex, colIndex, item, e, record) {
+        var formType = 'update'; // Set the formType value here
+
+        // Create an instance of the MovieFormView component with the formType config option
+        var customerForm = Ext.create('VideoShopRental.view.customer.CustomerFormView', {
+            formType: formType
+        });
+
+        var formWindow = Ext.create('Ext.window.Window', {
+            title: 'Update Customer',
+            layout: 'fit',
+            width: 400,
+            padding: 10,
+            modal: true,
+            resizable: false, // Disable window resizing
+            //draggable: false, // Disable window movement
+            items: [
+                {
+                    xtype: 'customerformview', // Reference the form component
+                    formType: formType, //pass the formType to the form
+                    recordData: record.getData() // Pass the record data to the form
+                }
+            ]
+        });
+
+        formWindow.show();
     },
-
-    // onDeleteCustomerClick: function (button, rowIndex, colIndex, item, e, record) {
-    //     var grid = button.up('grid'),
-    //         store = grid.getStore(),
-    //         customerId = record.get('CustomerId');
-
-    //     Ext.Msg.confirm('Delete Customer', 'Are you sure you want to delete this customer?', function (btn) {
-    //         if (btn === 'yes') {
-
-    //             store.remove(record);
-    //             //console.log(record);
-    //             Ext.Ajax.request({
-    //                 url: 'https://localhost:44348/api/Customers/' + customerId,
-    //                 method: 'DELETE',
-    //                 success: function () {
-    //                   Ext.Msg.alert('Delete Customer', 'Customer deleted successfully');
-    //                 },
-    //                 failure: function () {
-    //                   Ext.Msg.alert('Delete Customer', 'Failed to Customer movie');
-    //                 }
-    //             });
-    //         }
-    //     });
-    // }
 
     onDeleteCustomerClick: function (button, rowIndex, colIndex, item, e, record) {
         var grid = button.up('grid'),

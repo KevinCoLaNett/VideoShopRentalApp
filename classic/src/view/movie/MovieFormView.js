@@ -1,6 +1,7 @@
 Ext.define('VideoShopRental.view.movie.MovieFormView', {
     extend: 'Ext.form.Panel',
     xtype: 'movieformview',
+    formType: 'movie',
 
     controller: 'movieformcontroller',
 
@@ -10,10 +11,14 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
         msgTarget: 'side'
     },
 
+    config: {
+        formType: 'add', // Default form type is 'movie'
+        recordData: null // Holds the record data for update form
+    },
+
     items: [{
         xtype: 'fieldset',
         title: 'Movie Information',
-
         defaultType: 'textfield',
         defaults: {
             anchor: '100%'
@@ -72,6 +77,18 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
     initComponent: function () {
         this.callParent(arguments);
 
+        // Set the form field values if it's an update form
+        if (this.getFormType() === 'update') {
+            this.setFormFieldValues(this.getRecordData());
+        }
+
+        //pass the formType and recordData
+        var controller = this.getController();
+        if (controller) {
+            controller.setFormType(this.getFormType());
+            controller.loadRecordData(this.getRecordData());
+        }
+
         // Custom vtypes for validation
         Ext.apply(Ext.form.field.VTypes, {
             customName: function (value) {
@@ -119,6 +136,14 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
         availableQuantityField.vtype = 'customAvailableQuantity';
         availableQuantityField.vtypeText = 'Invalid available quantity. Please enter a valid positive integer.';
 
+    },
+
+    setFormFieldValues: function (recordData) {
+        var form = this.getForm();
+
+        if (form) {
+            form.setValues(recordData);
+        }
     }
 
 });
