@@ -7,14 +7,6 @@ Ext.define('VideoShopRental.store.Movie', {
 
   model: 'VideoShopRental.model.Movie',
 
-  // proxy: {
-  //     type: 'rest',
-  //     url: 'https://localhost:44348/api/Movies',   // access to application data
-  //     reader: {
-  //         rootProperty: 'results'
-  //     }
-  // },
-
   proxy: {
     type: 'rest',
     //url: 'https://localhost:44348/api/Movies',
@@ -24,7 +16,7 @@ Ext.define('VideoShopRental.store.Movie', {
     },
     writer: {
       type: 'json',
-      writeAllFields: true
+      writeAllFields: true, // Include all fields by default
     },
     api: {
       create: 'https://localhost:44348/api/Movies',

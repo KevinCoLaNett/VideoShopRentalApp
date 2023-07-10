@@ -10,6 +10,7 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
         var store = Ext.getStore('moviestore');
         var newMovie = Ext.create('VideoShopRental.model.Movie');
         newMovie.set(formValues);
+        newMovie.set('MovieId', 0);
       
         store.add(newMovie);
         //console.log(newMovie);
@@ -17,8 +18,7 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
         store.sync({
           success: function(response) {
             Ext.Msg.alert('Add Movie', 'Movie added successfully!');
-            //var grid = button.up('movie');
-            //grid.getStore().load();
+            store.load();
             form.reset();
           },
           failure: function(response) {

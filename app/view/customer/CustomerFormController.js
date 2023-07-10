@@ -10,6 +10,7 @@ Ext.define('VideoShopRental.view.customer.CustomerFormController', {
         var store = Ext.getStore('customerstore');
         var newCustomer = Ext.create('VideoShopRental.model.Customer');
         newCustomer.set(formValues);
+        newCustomer.set('CustomerId', 0);
       
         //console.log(newCustomer);
         store.add(newCustomer);
@@ -17,8 +18,7 @@ Ext.define('VideoShopRental.view.customer.CustomerFormController', {
         store.sync({
           success: function(response) {
             Ext.Msg.alert('Add Customer', 'Customer added successfully!');
-            //var grid = button.up('customerGridId');
-            //grid.getStore().load();
+            store.load();
             form.reset();
           },
           failure: function(response) {

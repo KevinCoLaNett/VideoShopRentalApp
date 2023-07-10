@@ -7,5 +7,7 @@ Ext.define('VideoShopRental.model.Customer', {
         {name: 'Address', type: 'string'},
         {name: 'Email', type: 'string'},
         {name: 'ContactNumber', type: 'int'}
-    ]
+    ],
+
+    idProperty: 'CustomerId'
 });

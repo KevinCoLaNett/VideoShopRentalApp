@@ -7,14 +7,6 @@ Ext.define('VideoShopRental.store.Customer', {
 
   model: 'VideoShopRental.model.Customer',
 
-  // proxy: {
-  //     type: 'rest',
-  //     url: 'https://localhost:44348/api/Customers',   // access to application data
-  //     reader: {
-  //         rootProperty: 'results'
-  //     }
-  // }
-
   proxy: {
     type: 'rest',
     //url: 'https://localhost:44348', // Base URL of the RESTful API endpoint

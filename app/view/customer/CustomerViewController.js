@@ -26,26 +26,51 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
         console.log('Edit This Customer');
     },
 
+    // onDeleteCustomerClick: function (button, rowIndex, colIndex, item, e, record) {
+    //     var grid = button.up('grid'),
+    //         store = grid.getStore(),
+    //         customerId = record.get('CustomerId');
+
+    //     Ext.Msg.confirm('Delete Customer', 'Are you sure you want to delete this customer?', function (btn) {
+    //         if (btn === 'yes') {
+
+    //             store.remove(record);
+    //             //console.log(record);
+    //             Ext.Ajax.request({
+    //                 url: 'https://localhost:44348/api/Customers/' + customerId,
+    //                 method: 'DELETE',
+    //                 success: function () {
+    //                   Ext.Msg.alert('Delete Customer', 'Customer deleted successfully');
+    //                 },
+    //                 failure: function () {
+    //                   Ext.Msg.alert('Delete Customer', 'Failed to Customer movie');
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+
     onDeleteCustomerClick: function (button, rowIndex, colIndex, item, e, record) {
         var grid = button.up('grid'),
-            store = grid.getStore(),
-            customerId = record.get('CustomerId');
+            customerStore = grid.getStore();
+
 
         Ext.Msg.confirm('Delete Customer', 'Are you sure you want to delete this customer?', function (btn) {
             if (btn === 'yes') {
-
-                store.remove(record);
-                //console.log(record);
-                Ext.Ajax.request({
-                    url: 'https://localhost:44348/api/Customers/' + customerId,
-                    method: 'DELETE',
-                    success: function () {
-                      Ext.Msg.alert('Delete Customer', 'Customer deleted successfully');
-                    },
-                    failure: function () {
-                      Ext.Msg.alert('Delete Customer', 'Failed to Customer movie');
-                    }
-                });
+                if (record !== -1) {
+                    //console.log(record);
+                    customerStore.remove(record);
+                    customerStore.sync({
+                        success: function () {
+                            Ext.Msg.alert('Delete Customer', 'Customer deleted successfully!');
+                        },
+                        failure: function () {
+                            Ext.Msg.alert('Delete Customer', 'Failed to Customer movie');
+                        }
+                    });
+                } else {
+                    Ext.Msg.alert('Delete Customer', 'Customer not found');
+                }
             }
         });
     }
