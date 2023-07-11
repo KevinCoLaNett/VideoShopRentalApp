@@ -3,6 +3,17 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
 
     alias: 'controller.movieviewcontroller', // used to instantiate in MainView.js
 
+    seachHandler: function(btn){
+        var searchText = this.lookupReference('searchText');
+        alert(searchText.getValue());
+    },
+    onSearchTextHandler: function(obj, e, oPts){
+        if(e.getKey() == e.ENTER){
+            var searchButton = Ext.getCmp('movieGrid').lookupReference('searchButton');
+            searchButton.click();
+        }
+    },
+
     onAddMovieClick: function () {
         var formType = 'add'; // Set the formType value here
 
@@ -71,6 +82,7 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
                     movieStore.sync({
                         success: function () {
                             Ext.Msg.alert('Delete Movie', 'Movie deleted successfully!');
+                            movieStore.load();
                         },
                         failure: function () {
                             Ext.Msg.alert('Delete Movie', 'Failed to delete movie!');

@@ -7,13 +7,15 @@ Ext.define('VideoShopRental.store.Customer', {
 
   model: 'VideoShopRental.model.Customer',
 
+  pageSize: 10,
+
   proxy: {
     type: 'rest',
     //url: 'https://localhost:44348', // Base URL of the RESTful API endpoint
     reader: {
       type: 'json',
-      rootProperty: 'data',
-      totalProperty: 'totalCount'
+      rootProperty: 'Customers',
+      totalProperty: 'TotalCount'
     },
     writer: {
       type: 'json',
@@ -26,5 +28,5 @@ Ext.define('VideoShopRental.store.Customer', {
       destroy: 'https://localhost:44348/api/Customers'
     }
   },
-  autoLoad: true // Optional, automatically load data when the store is created
+  autoLoad: false
 });

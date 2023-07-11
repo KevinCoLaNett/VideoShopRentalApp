@@ -4,7 +4,7 @@ Ext.define('VideoShopRental.view.movie.MovieViewModel', {
 
     stores: {
         movies: {
-            type: 'movie' // Reference the Movie defined in store
+            type: 'movie'// Reference the Movie defined in store
         }
     }
 });

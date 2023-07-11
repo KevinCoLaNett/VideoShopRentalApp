@@ -30,9 +30,27 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
 
     tbar: [
         {
+            xtype: 'textfield',
+            emptyText: 'Search...',
+            width: 200,
+            reference: 'searchText',
+            enableKeyEvents: true,
+            listeners: {
+                keyup: 'onSearchTextHandler'
+            }
+        },
+        {
+            xtype: 'button',
+            text: 'Search',
+            iconCls: 'x-fa fa-search blue',
+            handler: 'seachHandler',
+            reference: 'searchButton'
+        },
+        '->', // Separator
+        {
             xtype: 'button',
             text: 'Add New Customer',
-            iconCls: 'x-fa fa-plus',
+            iconCls: 'x-fa fa-plus blue',
             reference: 'btnAddCustomer',
             handler: 'onAddCustomerClick'
         }
@@ -60,19 +78,33 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
             flex: 0.4,
             items: [{
                 xtype: 'button',
-                iconCls: 'x-fa fa-edit',
+                iconCls: 'x-fa fa-edit blue',
                 tooltip: 'Edit',
                 reference: 'btnEditCustomer',
                 handler: 'onEditCustomerClick'
             }, {
                 xtype: 'button',
-                iconCls: 'x-fa fa-trash',
+                iconCls: 'x-fa fa-trash red',
                 tooltip: 'Delete',
                 reference: 'btnEditCustomer',
                 handler: 'onDeleteCustomerClick'
             }]
         }
     ],
+
+    bbar: {
+        xtype: 'pagingtoolbar',
+        displayInfo: true,
+        displayMsg: 'Displaying customers {0} - {1} of {2}',
+        emptyMsg: "No customers to display"
+    },
+
+    listeners: {
+        afterrender: function (grid) {
+            var store = grid.getViewModel().getStore('customers');
+            store.load();
+        }
+    },
 
     selModel: {
         injectCheckbox: 'first',

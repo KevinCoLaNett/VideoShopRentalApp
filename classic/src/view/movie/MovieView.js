@@ -6,10 +6,13 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
         'Ext.grid.column.Action',
+        'Ext.toolbar.Paging',
 
         'VideoShopRental.store.Movie',
         'VideoShopRental.view.movie.MovieViewController',
-        'VideoShopRental.view.movie.MovieFormView'
+        'VideoShopRental.view.movie.MovieFormView',
+        'VideoShopRental.view.movie.MovieViewModel',
+        'VideoShopRental.view.customer.CustomerViewController'
     ],
 
     title: 'Movies',
@@ -20,7 +23,7 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
 
     viewModel: {
         type: 'movieviewmodel'
-    },    
+    },
 
     bind: {
         store: '{movies}'
@@ -30,16 +33,33 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
 
     tbar: [
         {
+            xtype: 'textfield',
+            emptyText: 'Search...',
+            width: 200,
+            reference: 'searchText',
+            enableKeyEvents: true,
+            listeners: {
+                keyup: 'onSearchTextHandler'
+            }
+        },
+        {
+            xtype: 'button',
+            text: 'Search',
+            iconCls: 'x-fa fa-search blue',
+            handler: 'seachHandler',
+            reference: 'searchButton'
+        },
+        '->', // Separator
+        {
             xtype: 'button',
             text: 'Add New Movie',
-            iconCls: 'x-fa fa-plus',
+            iconCls: 'x-fa fa-plus blue',
             reference: 'btnAddMovie',
             handler: 'onAddMovieClick'
         }
     ],
 
     columns: [
-        //{ text: 'MovieId', dataIndex: 'MovieId', flex: 1 },
         { text: 'Title', dataIndex: 'Title', flex: 1 },
         { text: 'Genre', dataIndex: 'Genre', flex: 1 },
         { text: 'Release Date', dataIndex: 'ReleaseDate', xtype: 'datecolumn', format: 'Y-m-d', flex: 0.5 },
@@ -54,19 +74,33 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
             flex: 0.5,
             items: [{
                 xtype: 'button',
-                iconCls: 'x-fa fa-edit',
+                iconCls: 'x-fa fa-edit blue',
                 tooltip: 'Edit',
                 reference: 'btnEditMovie',
                 handler: 'onEditMovieClick'
             }, {
                 xtype: 'button',
-                iconCls: 'x-fa fa-trash',
+                iconCls: 'x-fa fa-trash red',
                 tooltip: 'Delete',
                 reference: 'btnDeleteMovie',
                 handler: 'onDeleteMovieClick'
             }]
         }
     ],
+
+    bbar: {
+        xtype: 'pagingtoolbar',
+        displayInfo: true,
+        displayMsg: 'Displaying movies {0} - {1} of {2}',
+        emptyMsg: "No movies to display"
+    },
+
+    listeners: {
+        afterrender: function (grid) {
+            var store = grid.getViewModel().getStore('movies');
+            store.load();
+        }
+    },
 
     selModel: {
         injectCheckbox: 'first',

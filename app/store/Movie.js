@@ -7,13 +7,15 @@ Ext.define('VideoShopRental.store.Movie', {
 
   model: 'VideoShopRental.model.Movie',
 
+  pageSize: 15,
+
   proxy: {
     type: 'rest',
     //url: 'https://localhost:44348/api/Movies',
     reader: {
       type: 'json',
-      rootProperty: 'data',
-      totalProperty: 'totalCount'
+      rootProperty: 'Movies',
+      totalProperty: 'TotalCount'
     },
     writer: {
       type: 'json',
@@ -27,5 +29,5 @@ Ext.define('VideoShopRental.store.Movie', {
     }
   },
 
-  autoLoad: true // Optional, automatically load data when the store is created
+  autoLoad: false
 });
