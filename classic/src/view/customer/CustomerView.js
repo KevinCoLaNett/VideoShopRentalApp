@@ -8,21 +8,25 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
         'Ext.grid.column.Action',
 
         'VideoShopRental.store.Customer',
-        'VideoShopRental.view.customer.CustomerViewController'
+        'VideoShopRental.view.customer.CustomerViewController',
+        'VideoShopRental.view.customer.CustomerViewModel'
     ],
 
     title: 'Customers',
 
-    store: {
-        type: 'customer'
-    },
+    // store: {
+    //     type: 'customer'
+    // },
+
+    viewModel: {
+        type: 'customerviewmodel'
+    }, 
 
     bind: {
         store: '{customers}',
     },
 
     controller: 'customerviewcontroller',
-    //viewModel: 'customerviewmodel',
 
     tbar: [
         {

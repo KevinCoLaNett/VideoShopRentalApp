@@ -14,12 +14,16 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
 
     title: 'Movies',
 
-    store: {
-        type: 'movie'
-    },
+    // store: {
+    //     type: 'movie'
+    // },
+
+    viewModel: {
+        type: 'movieviewmodel'
+    },    
 
     bind: {
-        store: '{movies}',
+        store: '{movies}'
     },
 
     controller: 'movieviewcontroller',
@@ -31,14 +35,6 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
             iconCls: 'x-fa fa-plus',
             reference: 'btnAddMovie',
             handler: 'onAddMovieClick'
-        }
-    ],
-
-    items: [
-        {
-            xtype: 'movieformview',
-            reference: 'movieForm',
-            //hidden: true // Initially hidden
         }
     ],
 

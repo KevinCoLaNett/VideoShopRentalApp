@@ -12,7 +12,8 @@ Ext.define('VideoShopRental.store.Movie', {
     //url: 'https://localhost:44348/api/Movies',
     reader: {
       type: 'json',
-      rootProperty: 'data'
+      rootProperty: 'data',
+      totalProperty: 'totalCount'
     },
     writer: {
       type: 'json',
