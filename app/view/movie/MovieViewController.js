@@ -3,16 +3,40 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
 
     alias: 'controller.movieviewcontroller', // used to instantiate in MainView.js
 
-    seachHandler: function(btn){
-        var searchText = this.lookupReference('searchText');
-        alert(searchText.getValue());
+    init: function () {
+        var movieStore = this.getViewModel().getStore('movies');
+        movieStore.setAutoLoad(true);
     },
-    onSearchTextHandler: function(obj, e, oPts){
-        if(e.getKey() == e.ENTER){
-            var searchButton = Ext.getCmp('movieGrid').lookupReference('searchButton');
-            searchButton.click();
+
+    onSearchTextKeyUp: function (field, event) {
+        if (event.getKey() === Ext.event.Event.ENTER) {
+            var searchText = field.getValue();
+            this.performSearch(searchText);
         }
     },
+
+    performSearch: function (searchText) {
+        var movieStore = this.getView().getStore();
+
+        movieStore.clearFilter();
+        movieStore.filterBy(function (record) {
+            var title = record.get('Title');
+            return title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+        });
+    },
+
+    onRefreshClick: function(button) {
+        var grid = button.up('grid'); // Get the grid component
+      
+        // Clear any existing filters
+        grid.getStore().clearFilter();
+      
+        // Clear any existing sorters
+        grid.getStore().getSorters().clear();
+      
+        // Reload the store to fetch fresh data
+        grid.getStore().reload();
+      },
 
     onAddMovieClick: function () {
         var formType = 'add'; // Set the formType value here

@@ -3,6 +3,41 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
 
     alias: 'controller.customerviewcontroller', // used to instantiate in CustomerView.js
 
+    init: function () {
+        var movieStore = this.getViewModel().getStore('customers');
+        movieStore.setAutoLoad(true);
+    },
+
+    onSearchTextKeyUp: function (field, event) {
+        if (event.getKey() === Ext.event.Event.ENTER) {
+            var searchText = field.getValue();
+            this.performSearch(searchText);
+        }
+    },
+
+    performSearch: function (searchText) {
+        var movieStore = this.getView().getStore();
+
+        movieStore.clearFilter();
+        movieStore.filterBy(function (record) {
+            var name = record.get('Name');
+            return name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+        });
+    },
+
+    onRefreshClick: function(button) {
+        var grid = button.up('grid'); // Get the grid component
+      
+        // Clear any existing filters
+        grid.getStore().clearFilter();
+      
+        // Clear any existing sorters
+        grid.getStore().getSorters().clear();
+      
+        // Reload the store to fetch fresh data
+        grid.getStore().reload();
+      },
+
     onAddCustomerClick: function () {
         var formType = 'add'; // Set the formType value here
 

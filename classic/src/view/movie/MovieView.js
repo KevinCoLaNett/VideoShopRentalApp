@@ -38,16 +38,16 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
             width: 200,
             reference: 'searchText',
             enableKeyEvents: true,
+            triggerCls: 'x-form-search-trigger',
             listeners: {
-                keyup: 'onSearchTextHandler'
+                keyup: 'onSearchTextKeyUp'
             }
         },
         {
             xtype: 'button',
-            text: 'Search',
-            iconCls: 'x-fa fa-search blue',
-            handler: 'seachHandler',
-            reference: 'searchButton'
+            text: 'Refresh',
+            iconCls: 'x-tbar-loading red',
+            handler: 'onRefreshClick' // This is the handler function to be defined in your controller
         },
         '->', // Separator
         {
