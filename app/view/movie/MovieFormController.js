@@ -24,6 +24,9 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
       formValues = form.getValues(),
       movieStore = Ext.getStore('moviestore');
 
+    var formController = this;
+    var view = formController.getView(); // Get the view instance
+
     if (form && form.isValid()) {
 
       if (formType == 'add') {
@@ -38,6 +41,10 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
             Ext.Msg.alert('Add Movie', 'Movie added successfully!');
             movieStore.load();
             form.reset();
+
+            // Close the window/modal
+            var window = view.up('window');
+            window.close();
           },
           failure: function (response) {
             movieStore.remove(newMovie);
@@ -55,6 +62,10 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
             success: function (response) {
               Ext.Msg.alert('Update Movie', 'Movie updated successfully!');
               movieStore.load();
+
+              // Close the window/modal
+              var window = view.up('window');
+              window.close();
             },
             failure: function (response) {
               Ext.Msg.alert('Update Movie', 'Failed to update Movie!');

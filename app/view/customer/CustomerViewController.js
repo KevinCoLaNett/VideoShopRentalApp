@@ -15,28 +15,43 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
         }
     },
 
-    performSearch: function (searchText) {
-        var movieStore = this.getView().getStore();
+    performSearch: function () {
+        var searchText = this.lookupReference('searchText').getValue();
+        var grid = this.getView();
 
-        movieStore.clearFilter();
-        movieStore.filterBy(function (record) {
-            var name = record.get('Name');
-            return name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
-        });
+        // Get the store associated with the grid
+        var store = grid.getStore();
+
+        // Apply the search filter to the store
+        store.clearFilter(); // Clear any previous filters
+        if (searchText) {
+            store.filterBy(function (record) {
+                // Modify this condition to match your search logic
+                var title = record.get('Name');
+                return title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+            });
+        }
     },
 
-    onRefreshClick: function(button) {
-        var grid = button.up('grid'); // Get the grid component
-      
-        // Clear any existing filters
+    onRefreshClick: function (button) {
+        var grid = button.up('grid');
+        //reload the grid
         grid.getStore().clearFilter();
-      
-        // Clear any existing sorters
         grid.getStore().getSorters().clear();
-      
-        // Reload the store to fetch fresh data
         grid.getStore().reload();
-      },
+        
+        //set pageSize to default value = 15
+        grid.getStore().setPageSize(15);
+        grid.getStore().loadPage(1);
+
+        //set itemsPerPageField to default value = 15
+        var itemsPerPageField = this.lookupReference('itemsPerPageField');
+        itemsPerPageField.setValue(15);
+
+        //clear the searchfield
+        var searchText = this.lookupReference('searchText');
+        searchText.setValue('');
+    },
 
     onAddCustomerClick: function () {
         var formType = 'add'; // Set the formType value here

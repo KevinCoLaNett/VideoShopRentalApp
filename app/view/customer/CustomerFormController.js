@@ -24,6 +24,9 @@ Ext.define('VideoShopRental.view.customer.CustomerFormController', {
       formValues = form.getValues(),
       customerStore = Ext.getStore('customerstore');
 
+    var formController = this;
+    var view = formController.getView(); // Get the view instance
+
     if (form && form.isValid()) {
 
       if (formType == 'add') {
@@ -38,6 +41,10 @@ Ext.define('VideoShopRental.view.customer.CustomerFormController', {
             Ext.Msg.alert('Add Customer', 'Customer added successfully!');
             customerStore.load();
             form.reset();
+
+            // Close the window/modal
+            var window = view.up('window');
+            window.close();
           },
           failure: function (response) {
             customerStore.remove(newCustomer);
@@ -55,6 +62,10 @@ Ext.define('VideoShopRental.view.customer.CustomerFormController', {
             success: function (response) {
               Ext.Msg.alert('Update Customer', 'Customer updated successfully!');
               customerStore.load();
+
+              // Close the window/modal
+              var window = view.up('window');
+              window.close();
             },
             failure: function (response) {
               Ext.Msg.alert('Update Customer', 'Failed to update Customer!');

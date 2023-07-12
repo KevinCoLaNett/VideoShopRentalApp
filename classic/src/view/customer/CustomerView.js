@@ -20,7 +20,7 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
 
     viewModel: {
         type: 'customerviewmodel'
-    }, 
+    },
 
     bind: {
         store: '{customers}',
@@ -31,11 +31,16 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
     tbar: [
         {
             xtype: 'textfield',
-            emptyText: 'Search...',
+            emptyText: 'Search by Name',
             width: 200,
             reference: 'searchText',
             enableKeyEvents: true,
-            triggerCls: 'x-form-search-trigger',
+            triggers: {
+                search: {
+                    cls: 'x-form-search-trigger',
+                    handler: 'performSearch'
+                }
+            },
             listeners: {
                 keyup: 'onSearchTextKeyUp'
             }
@@ -55,15 +60,6 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
             handler: 'onAddCustomerClick'
         }
     ],
-
-    // dockedItems: [{
-    //     xtype: 'toolbar',
-    //     dock: 'top',
-    //     items: [{
-    //         text: 'Add New Customer',
-    //         handler: 'onAddCustomerClick'
-    //     }]
-    // }],
 
     columns: [
         { text: 'Name', dataIndex: 'Name', flex: 1 },
@@ -96,7 +92,23 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
         xtype: 'pagingtoolbar',
         displayInfo: true,
         displayMsg: 'Displaying customers {0} - {1} of {2}',
-        emptyMsg: "No customers to display"
+        emptyMsg: "No customers to display",
+        items: [
+            '->', // This adds a flexible space to push the following items to the right
+            'Items per Page:',
+            {
+                xtype: 'numberfield',
+                reference: 'itemsPerPageField',
+                minValue: 1,
+                maxValue: 100,
+                allowBlank: false,
+                value: 15,
+                width: 70,
+                listeners: {
+                    change: 'onItemsPerPageChange'
+                }
+            }
+        ]
     },
 
     listeners: {

@@ -34,11 +34,16 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
     tbar: [
         {
             xtype: 'textfield',
-            emptyText: 'Search...',
+            emptyText: 'Search by Title',
             width: 200,
             reference: 'searchText',
             enableKeyEvents: true,
-            triggerCls: 'x-form-search-trigger',
+            triggers: {
+                search: {
+                    cls: 'x-form-search-trigger',
+                    handler: 'performSearch'
+                }
+            },
             listeners: {
                 keyup: 'onSearchTextKeyUp'
             }
@@ -46,7 +51,7 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
         {
             xtype: 'button',
             text: 'Refresh',
-            iconCls: 'x-tbar-loading red',
+            iconCls: 'x-tbar-loading',
             handler: 'onRefreshClick' // This is the handler function to be defined in your controller
         },
         '->', // Separator
@@ -92,7 +97,23 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
         xtype: 'pagingtoolbar',
         displayInfo: true,
         displayMsg: 'Displaying movies {0} - {1} of {2}',
-        emptyMsg: "No movies to display"
+        emptyMsg: "No movies to display",
+        items: [
+            '->', // This adds a flexible space to push the following items to the right
+            'Items per Page:',
+            {
+                xtype: 'numberfield',
+                reference: 'itemsPerPageField',
+                minValue: 1,
+                maxValue: 100,
+                allowBlank: false,
+                value: 15,
+                width: 70,
+                listeners: {
+                    change: 'onItemsPerPageChange'
+                }
+            }
+        ]
     },
 
     listeners: {
