@@ -11,8 +11,7 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
         'VideoShopRental.store.Movie',
         'VideoShopRental.view.movie.MovieViewController',
         'VideoShopRental.view.movie.MovieFormView',
-        'VideoShopRental.view.movie.MovieViewModel',
-        'VideoShopRental.view.customer.CustomerViewController'
+        'VideoShopRental.view.movie.MovieViewModel'
     ],
 
     title: 'Movies',

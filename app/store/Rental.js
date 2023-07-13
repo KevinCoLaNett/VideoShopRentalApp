@@ -1,37 +1,32 @@
 Ext.define('VideoShopRental.store.Rental', {
-    extend: 'Ext.data.Store',
+  extend: 'Ext.data.Store',
 
-    alias: 'store.rental',
+  alias: 'store.rental',
 
-    model: 'VideoShopRental.model.Rental',
+  storeId: 'rentalstore',
 
-    autoLoad: true,
-    
-    // proxy: {
-    //     type: 'rest',
-    //     url: 'https://localhost:44348/api/Rentals',   // access to application data
-    //     reader: {
-    //         rootProperty: 'results'
-    //     }
-    // }
+  model: 'VideoShopRental.model.Rental',
 
-    proxy: {
-        type: 'rest',
-        url: 'https://localhost:44348', // Base URL of the RESTful API endpoint
-        reader: {
-          type: 'json',
-          rootProperty: 'data'
-        },
-        writer: {
-          type: 'json',
-          writeAllFields: true
-        },
-        api: {
-          create: '/api/Rentals',
-          read: '/api/Rentals',
-          update: '/api/Rentals',
-          destroy: '/api/Rentals'
-        }
-      },
-      autoLoad: true // Optional, automatically load data when the store is created
+  pageSize: 15,
+
+  proxy: {
+    type: 'rest',
+    reader: {
+      type: 'json',
+      rootProperty: 'Rentals',
+      totalProperty: 'TotalCount'
+    },
+    writer: {
+      type: 'json',
+      writeAllFields: true, // Include all fields by default
+    },
+    api: {
+      create: 'https://localhost:44348/api/Rentals',
+      read: 'https://localhost:44348/api/RentalsWithCustomersAndDetails',
+      update: 'https://localhost:44348/api/Rentals',
+      destroy: 'https://localhost:44348/api/Rentals'
+    }
+  },
+
+  autoLoad: false
 });

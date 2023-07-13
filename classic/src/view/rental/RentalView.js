@@ -7,72 +7,79 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         'Ext.grid.column.Action',
 
         'VideoShopRental.store.Rental',
-        'VideoShopRental.view.rental.RentalViewController'
+        'VideoShopRental.view.rental.RentalViewController',
+        'VideoShopRental.view.rental.RentalViewModel'
     ],
 
     title: 'Rentals',
 
-    store: {
-        type: 'rental'
+    viewModel: {
+        type: 'rentalviewmodel'
+    },
+
+    bind: {
+        store: '{rentals}'
     },
 
     controller: 'rentalviewcontroller',
 
     tbar: [
         {
+            xtype: 'textfield',
+            emptyText: 'Search by Title',
+            width: 200,
+            reference: 'searchText',
+            enableKeyEvents: true,
+            triggers: {
+                search: {
+                    cls: 'x-form-search-trigger',
+                    handler: 'performSearch'
+                }
+            },
+            listeners: {
+                keyup: 'onSearchTextKeyUp'
+            }
+        },
+        {
+            xtype: 'button',
+            text: 'Refresh',
+            iconCls: 'x-tbar-loading',
+            handler: 'onRefreshClick' // This is the handler function to be defined in your controller
+        },
+        '->', // Separator
+        {
             xtype: 'button',
             text: 'Add New Rental',
-            iconCls: 'x-fa fa-plus',
+            iconCls: 'x-fa fa-plus blue',
             reference: 'btnAddRental',
             handler: 'onAddButtonClick'
         }
     ],
 
-    // tbar: [
-    //     {
-    //         xtype: 'button',
-    //         itemId: 'add',
-    //         text: 'Add',
-    //         iconcls: 'fa-plus',
-    //         reference: 'btnaddrental',
-    //         handler: 'addPopup'
-    //     },
-    //     {
-    //         xtype: 'button',
-    //         itemId: 'edit',
-    //         text: 'Edit',
-    //         iconcls: 'fa-pencil',
-    //         reference: 'btnedit',
-    //         handler: 'updatePopup'
-    //     },
-    //     {
-    //         xtype: 'button',
-    //         itemId: 'delete',
-    //         text: 'Delete',
-    //         iconcls: 'fa-thrash',
-    //         reference: 'btndelete'
-    //     }
-    // ],
-
     columns: [
-        { text: 'Rental Date', dataIndex: 'RentalDate', flex: 1 },
-        { text: 'Due Date', dataIndex: 'DueDate', flex: 1 },
-        { text: 'Date Returned', dataIndex: 'DateReturned', flex: 1 },
-        { text: 'Customer ID', dataIndex: 'CustomerId', flex: 0.5 },
+        { text: 'Customer Name', dataIndex: 'Customer', renderer: function (value) { return value ? value.Name : ''; }, flex: 1 },
+        { text: 'Rental Date', dataIndex: 'RentalDate', xtype: 'datecolumn', format: 'd-m-Y' },
+        { text: 'Return Date', dataIndex: 'ReturnDate', xtype: 'datecolumn', format: 'd-m-Y' },
+        { text: 'Total Rental Fee', dataIndex: 'TotalRentalFee' },
+        { text: 'Rented Movies', dataIndex: 'RentalDetails', renderer: 'listOfRentedMovies' , flex: 1 },
         {
             xtype: 'actioncolumn',
             text: 'Action',
             menuDisabled: true,
             sortable: false,
-            flex: 0.4,
+            flex: 0.5,
             items: [{
                 xtype: 'button',
-                iconCls: 'x-fa fa-edit',
-                tooltip: 'Edit'
+                iconCls: 'x-fa fa-edit blue',
+                tooltip: 'Edit',
+                reference: 'btnEditRental',
+                handler: 'onEditRentalClick'
             }, {
                 xtype: 'button',
-                iconCls: 'x-fa fa-trash',
-                tooltip: 'Delete'
+                iconCls: 'x-fa fa-trash red',
+                tooltip: 'Delete',
+                reference: 'btnDeleteRental',
+                handler: 'onDeleteRentalClick'
             }]
         }
     ],
@@ -82,5 +89,12 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         checkOnly: true,
         model: 'SIMPLE',
         type: 'checkboxmodel'
+    },
+
+    listeners: {
+        afterrender: function (grid) {
+            var store = grid.getViewModel().getStore('rentals');
+            store.load();
+        }
     }
 });

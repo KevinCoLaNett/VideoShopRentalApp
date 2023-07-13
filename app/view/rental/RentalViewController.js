@@ -1,22 +1,41 @@
 Ext.define('VideoShopRental.view.rental.RentalViewController', {
     extend: 'Ext.app.ViewController',
 
-    alias: 'controller.rentalviewcontroller', // used to instantiate in MainView.js
+    alias: 'controller.rentalviewcontroller',
 
-    onAddButtonClick: function() {
+    init: function () {
+        var rentalStore = this.getViewModel().getStore('rentals');
+        rentalStore.setAutoLoad(true);
+    },
+
+    onAddButtonClick: function () {
+        var formType = 'add'; // Set the formType value here
+
         var formWindow = Ext.create('Ext.window.Window', {
-            title: 'Add Customer',
-            width: 400,
-            height: 200,
+            title: 'Add Rent',
             layout: 'fit',
+            width: 400,
+            padding: 10,
             modal: true,
+            resizable: false, // Disable window resizing
+            //draggable: false, // Disable window movement
             items: [
-                // Your form component(s) configuration
+                {
+                    xtype: 'rentalformview', // Reference the form component
+                    formType: formType
+                }
             ]
         });
 
         formWindow.show();
+    },
+
+    listOfRentedMovies: function (value, metaData, record) {
+        var movies = [];
+        Ext.each(value, function (detail) {
+            movies.push(detail.Movie.Title);
+        });
+        return movies.join(', ');
     }
 
-   
 });

@@ -78,11 +78,11 @@ Ext.define('VideoShopRental.view.main.Main', {
     },
 
     items: [{
-        title: 'Movies',
-        iconCls: 'fa-film',
+        title: 'Rentals',
+        iconCls: 'fa-paperclip',
         // The following grid shares a store with the classic version's grid as well!
         items: [{
-            xtype: 'movie'
+            xtype: 'rental'
         }]
     }, {
         title: 'Cutomers',
@@ -91,10 +91,10 @@ Ext.define('VideoShopRental.view.main.Main', {
             xtype: 'customer'
         }]
     }, {
-        title: 'Rental',
-        iconCls: 'fa-paperclip',
+        title: 'Movies',
+        iconCls: 'fa-film',
         items: [{
-            xtype: 'movieformview'
+            xtype: 'movie'
         }]
     }, {
         title: 'Settings',

@@ -9,5 +9,12 @@ Ext.define('VideoShopRental.model.Customer', {
         {name: 'ContactNumber', type: 'int'}
     ],
 
-    idProperty: 'CustomerId'
+    idProperty: 'CustomerId',
+
+    hasMany: [
+        {
+            model: 'VideoShopRental.model.Rental',
+            name: 'Rentals'
+        }
+    ]
 });

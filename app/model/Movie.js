@@ -11,5 +11,12 @@ Ext.define('VideoShopRental.model.Movie', {
         { name: 'NumberAvailable', type: 'int' }
     ],
 
-    idProperty: 'MovieId'
+    idProperty: 'MovieId',
+
+    hasMany: [
+        {
+            model: 'VideoShopRental.model.RentalDetail',
+            name: 'RentalDetails'
+        }
+    ]
 });
