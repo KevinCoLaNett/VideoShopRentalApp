@@ -5,6 +5,7 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
 
     init: function () {
         var movieStore = this.getViewModel().getStore('movies');
+        movieStore.setPageSize(15);
         movieStore.setAutoLoad(true);
     },
 

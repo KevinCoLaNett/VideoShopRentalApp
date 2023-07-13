@@ -17,7 +17,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
             width: 400,
             padding: 10,
             modal: true,
-            resizable: false, // Disable window resizing
+            //resizable: false, // Disable window resizing
             //draggable: false, // Disable window movement
             items: [
                 {

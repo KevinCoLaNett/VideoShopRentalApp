@@ -4,8 +4,9 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
     alias: 'controller.customerviewcontroller', // used to instantiate in CustomerView.js
 
     init: function () {
-        var movieStore = this.getViewModel().getStore('customers');
-        movieStore.setAutoLoad(true);
+        var customerStore = this.getViewModel().getStore('customers');
+        customerStore.setPageSize(15);
+        customerStore.setAutoLoad(true);
     },
 
     onSearchTextKeyUp: function (field, event) {
@@ -51,6 +52,12 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
         //clear the searchfield
         var searchText = this.lookupReference('searchText');
         searchText.setValue('');
+    },
+
+    onItemsPerPageChange: function (field, newValue) {
+        var store = this.getView().getStore();
+        store.setPageSize(newValue);
+        store.loadPage(1);
     },
 
     onAddCustomerClick: function () {

@@ -5,10 +5,6 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
 
     controller: 'rentalformcontroller',
 
-    requires: [
-        'VideoShopRental.store.Customer' // Add the required store
-    ],
-
     fieldDefaults: {
         labelAlign: "right",
         labelWidth: 115,
@@ -17,7 +13,8 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
 
     config: {
         formType: 'add', // Default form type is 'movie'
-        recordData: null // Holds the record data for update form
+        recordData: null, // Holds the record data for update form
+        movieStore: null
     },
 
     items: [{
@@ -36,7 +33,16 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
                 xtype: 'combobox',
                 allowBlank: false,
                 store: {
-                    type: 'customer' // Set the type to the customer store
+                    type: 'customer',
+                    autoLoad: true,
+                    listeners: {
+                        load: function (store, records, successful, operation) {
+                            if (successful) {
+                                var totalCount = store.getTotalCount();
+                                store.setPageSize(totalCount);
+                            }
+                        }
+                    }
                 },
                 displayField: 'Name',
                 valueField: 'CustomerId',
@@ -49,14 +55,33 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
                 xtype: 'tagfield',
                 allowBlank: false,
                 store: {
-                    type: 'movie', // Set the type to the movie store
-                    autoLoad: true // Optionally auto load the movie store
-                },
+                    type: 'movie',
+                    autoLoad: true,
+                    listeners: {
+                        load: function (store, records, successful, operation) {
+                            if (successful) {
+                                var totalCount = store.getTotalCount();
+                                store.setPageSize(totalCount);
+                            }
+                        }
+                    }
+                }
+                ,
                 displayField: 'Title',
                 valueField: 'MovieId',
                 forceSelection: true,
                 filterPickList: true,
-                multiSelect: true // Enable multiple selections
+                multiSelect: true,
+                tpl: Ext.create('Ext.XTemplate',
+                    '<tpl for=".">',
+                    '<div class="x-boundlist-item">{Title} - ₱{RentalPrice}</div>',
+                    '</tpl>'
+                ),
+                displayTpl: Ext.create('Ext.XTemplate',
+                    '<tpl for=".">',
+                    '{Title} - ₱{RentalPrice}',
+                    '</tpl>'
+                )
             },
             {
                 fieldLabel: 'Quantity',
@@ -82,6 +107,10 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
         disabled: true,
         formBind: true,
         handler: 'onSaveRentalClick'
-    }]
+    }],
+
+    init: function () {
+        console.log('asdsad');
+    }
 
 });
