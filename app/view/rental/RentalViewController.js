@@ -12,10 +12,8 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         var formType = 'add'; // Set the formType value here
 
         var formWindow = Ext.create('Ext.window.Window', {
-            title: 'Add Rent',
+            title: 'Rental Information',
             layout: 'fit',
-            width: 400,
-            padding: 10,
             modal: true,
             //resizable: false, // Disable window resizing
             //draggable: false, // Disable window movement

@@ -68,8 +68,8 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
         { text: 'Genre', dataIndex: 'Genre', flex: 1 },
         { text: 'Release Date', dataIndex: 'ReleaseDate', xtype: 'datecolumn', format: 'Y-m-d', flex: 0.5 },
         { text: 'Rental Price', dataIndex: 'RentalPrice', flex: 0.5 },
-        { text: 'Number In Stock', dataIndex: 'NumberInStock', flex: 0.5 },
-        { text: 'Number Available', dataIndex: 'NumberAvailable', flex: 0.5 },
+        { text: 'In Stock', dataIndex: 'NumberInStock', flex: 0.5 },
+        { text: 'Available', dataIndex: 'NumberAvailable', flex: 0.5 },
         {
             xtype: 'actioncolumn',
             text: 'Action',
