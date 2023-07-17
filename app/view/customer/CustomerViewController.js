@@ -28,8 +28,8 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
         if (searchText) {
             store.filterBy(function (record) {
                 // Modify this condition to match your search logic
-                var title = record.get('Name');
-                return title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+                var name = record.get('Name');name
+                return name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
             });
         }
     },

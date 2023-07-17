@@ -26,8 +26,8 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
     tbar: [
         {
             xtype: 'textfield',
-            emptyText: 'Search by Title',
-            width: 200,
+            emptyText: 'Search by Customer Name',
+            width: 210,
             reference: 'searchText',
             enableKeyEvents: true,
             triggers: {
@@ -61,7 +61,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         { text: 'Rental Date', dataIndex: 'RentalDate', xtype: 'datecolumn', format: 'd-m-Y' },
         { text: 'Return Date', dataIndex: 'ReturnDate', xtype: 'datecolumn', format: 'd-m-Y' },
         { text: 'Total Rental Fee', dataIndex: 'TotalRentalFee' },
-        { text: 'Rented Movies', dataIndex: 'RentalDetails', renderer: 'listOfRentedMovies' , flex: 1 },
+        { text: 'Rented Movies', dataIndex: 'RentalDetails', renderer: 'listOfRentedMovies', flex: 1 },
         {
             xtype: 'actioncolumn',
             text: 'Action',
@@ -83,6 +83,29 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
             }]
         }
     ],
+
+    bbar: {
+        xtype: 'pagingtoolbar',
+        displayInfo: true,
+        displayMsg: 'Displaying rentals {0} - {1} of {2}',
+        emptyMsg: "No rentals to display",
+        items: [
+            '->', // This adds a flexible space to push the following items to the right
+            'Items per Page:',
+            {
+                xtype: 'numberfield',
+                reference: 'itemsPerPageField',
+                minValue: 1,
+                maxValue: 100,
+                allowBlank: false,
+                value: 15,
+                width: 70,
+                listeners: {
+                    change: 'onItemsPerPageChange'
+                }
+            }
+        ]
+    },
 
     selModel: {
         injectCheckbox: 'first',

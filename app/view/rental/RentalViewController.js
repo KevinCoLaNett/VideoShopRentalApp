@@ -8,6 +8,57 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         rentalStore.setAutoLoad(true);
     },
 
+    onSearchTextKeyUp: function (field, event) {
+        if (event.getKey() === Ext.event.Event.ENTER) {
+            var searchText = field.getValue();
+            this.performSearch(searchText);
+        }
+    },
+
+    performSearch: function () {
+        var searchText = this.lookupReference('searchText').getValue();
+        var grid = this.getView();
+
+        // Get the store associated with the grid
+        var store = grid.getStore();
+
+        // Apply the search filter to the store
+        store.clearFilter(); // Clear any previous filters
+        if (searchText) {
+            store.filterBy(function (record) {
+                // Modify this condition to match your search logic
+                var customer = record.get('Customer');
+                return customer.Name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+            });
+        }
+    },
+
+    onRefreshClick: function (button) {
+        var grid = button.up('grid');
+        //reload the grid
+        grid.getStore().clearFilter();
+        grid.getStore().getSorters().clear();
+        grid.getStore().reload();
+
+        //set pageSize to default value = 15
+        grid.getStore().setPageSize(15);
+        grid.getStore().loadPage(1);
+
+        //set itemsPerPageField to default value = 15
+        var itemsPerPageField = this.lookupReference('itemsPerPageField');
+        itemsPerPageField.setValue(15);
+
+        //clear the searchfield
+        var searchText = this.lookupReference('searchText');
+        searchText.setValue('');
+    },
+
+    onItemsPerPageChange: function (field, newValue) {
+        var store = this.getView().getStore();
+        store.setPageSize(newValue);
+        store.loadPage(1);
+    },
+
     onAddButtonClick: function () {
         var formType = 'add'; // Set the formType value here
 
