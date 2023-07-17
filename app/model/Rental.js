@@ -8,7 +8,7 @@ Ext.define('VideoShopRental.model.Rental', {
         { name: 'TotalRentalFee', type: 'number' },
         { name: 'CustomerId', type: 'int' },
         { name: 'Customer', reference: 'VideoShopRental.model.Customer' },
-        { name: 'RentalDetails', type: 'auto'}
+        { name: 'RentalDetails', reference: 'VideoShopRental.model.RentalDetail' }
     ],
 
     idProperty: 'RentalId',

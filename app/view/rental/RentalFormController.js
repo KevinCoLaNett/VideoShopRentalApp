@@ -30,7 +30,53 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
             formValues = form.getValues(),
             rentalStore = Ext.getStore('rentalstore');
 
-        console.log(formValues);
+        var formController = this;
+        var view = formController.getView(); // Get the view instance
+
+        // Create a new instance of the Rental model with the desired data
+        var newRental = Ext.create('VideoShopRental.model.Rental', {
+            RentalDate: new Date(), // Replace with the desired rental date
+            ReturnDate: new Date(), // Replace with the desired return date
+            TotalRentalFee: formValues.totalRentFee,
+            CustomerId: formValues.customerId,
+            RentalDetails: []
+        });
+
+        // Iterate over the movieIds from formValues and add rental details to the RentalDetails array
+        for (var i = 0; i < formValues.movieIds.length; i++) {
+            var movieId = formValues.movieIds[i];
+            var copyCount = formValues['copyCount-' + movieId];
+
+            var rentalDetail = {
+                MovieId: movieId,
+                MovieRentalFee: 100, // Replace with the desired movie rental fee
+                Quantity: copyCount
+            };
+
+            newRental.get('RentalDetails').push(rentalDetail);
+        }
+
+        // Add the new record to the store
+        newRental.set('RentalId', 0);
+        console.log(newRental);
+        rentalStore.add(newRental);
+
+        // Sync the store with the server
+        rentalStore.sync({
+            success: function (response) {
+                Ext.Msg.alert('Add Rental', 'Rental added successfully!');
+                rentalStore.load();
+                form.reset();
+
+                // Close the window/modal
+                var window = view.up('window');
+                window.close();
+            },
+            failure: function (response) {
+                movieStore.remove(newRental);
+                Ext.Msg.alert('Add Rental', 'Failed to add Rental!');
+            }
+        });
 
     },
 

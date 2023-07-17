@@ -31,9 +31,12 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
     listOfRentedMovies: function (value, metaData, record) {
         var movies = [];
         Ext.each(value, function (detail) {
-            movies.push(detail.Movie.Title);
+            if (detail.Movie && detail.Movie.Title) {
+                movies.push(detail.Movie.Title);
+            }
         });
         return movies.join(', ');
     }
+
 
 });

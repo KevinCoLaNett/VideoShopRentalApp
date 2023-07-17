@@ -57,7 +57,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
     ],
 
     columns: [
-        { text: 'Customer Name', dataIndex: 'Customer', renderer: function (value) { return value ? value.Name : ''; }, flex: 1 },
+        { text: 'Customer Name', dataIndex: 'Customer', renderer: function (value) { return value ? value.Name : ''; }, flex: 0.5 },
         { text: 'Rental Date', dataIndex: 'RentalDate', xtype: 'datecolumn', format: 'd-m-Y' },
         { text: 'Return Date', dataIndex: 'ReturnDate', xtype: 'datecolumn', format: 'd-m-Y' },
         { text: 'Total Rental Fee', dataIndex: 'TotalRentalFee' },
