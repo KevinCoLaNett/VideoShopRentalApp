@@ -16,6 +16,15 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
     this.recordData = recordData;
   },
 
+  onNumberAvailableChange: function (field, newValue, oldValue) {
+    var stockNumberField = this.lookupReference('numberInStockField');
+  
+    if (stockNumberField && newValue > stockNumberField.getValue()) {
+      Ext.Msg.alert('Invalid Quantity', 'Number Available cannot exceed Number in Stock.');
+      field.setValue(oldValue);
+    }
+  },
+
   onSaveMovieClick: function (button) {
     // Access the formType property
     var form = button.up('form'),

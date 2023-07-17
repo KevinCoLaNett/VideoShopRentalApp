@@ -93,6 +93,11 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
                         minValue: 1,
                         value: 1
                     }
+                },
+                {
+                    xtype: 'container',
+                    itemId: 'rentalPrice',
+                    layout: 'anchor'
                 }
             ]
         },

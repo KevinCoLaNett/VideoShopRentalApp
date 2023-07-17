@@ -55,14 +55,21 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
             emptyText: '10',
             name: 'NumberInStock',
             itemId: 'numberInStockField',
-            allowBlank: false
+            reference: 'numberInStockField',
+            allowBlank: false,
+            listeners: {
+                change: 'onNumberAvailableChange'
+            }
         },
         {
             fieldLabel: 'Number Available',
             emptyText: '10',
             name: 'NumberAvailable',
             itemId: 'numberAvailableField',
-            allowBlank: false
+            allowBlank: false,
+            listeners: {
+                change: 'onNumberAvailableChange'
+            }
         }
         ]
     }],
@@ -135,6 +142,14 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
         var availableQuantityField = this.down('#numberAvailableField');
         availableQuantityField.vtype = 'customAvailableQuantity';
         availableQuantityField.vtypeText = 'Invalid available quantity. Please enter a valid positive integer.';
+
+        // Add change listener to Number in Stock field
+        stockNumberField.on('change', function (field, newValue) {
+            var availableQuantity = availableQuantityField.getValue();
+            if (newValue < availableQuantity) {
+                availableQuantityField.setValue(newValue);
+            }
+        });
 
     },
 

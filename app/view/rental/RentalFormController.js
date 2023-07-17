@@ -33,6 +33,8 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
         var formController = this;
         var view = formController.getView(); // Get the view instance
 
+        console.log(formValues);
+
         // Create a new instance of the Rental model with the desired data
         var newRental = Ext.create('VideoShopRental.model.Rental', {
             RentalDate: new Date(), // Replace with the desired rental date
@@ -46,14 +48,22 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
         for (var i = 0; i < formValues.movieIds.length; i++) {
             var movieId = formValues.movieIds[i];
             var copyCount = formValues['copyCount-' + movieId];
+            var movieRentalFee = formValues['rentalPrice-' + movieId] * copyCount;
 
             var rentalDetail = {
                 MovieId: movieId,
-                MovieRentalFee: 100, // Replace with the desired movie rental fee
+                MovieRentalFee: movieRentalFee, // Replace with the desired movie rental fee
                 Quantity: copyCount
             };
 
             newRental.get('RentalDetails').push(rentalDetail);
+
+            // Update the numberAvailable value in the movie record
+            var movieRecord = rentalStore.findRecord('MovieId', parseInt(movieId));
+            if (movieRecord) {
+                var numberAvailable = movieRecord.get('NumberAvailable');
+                movieRecord.set('NumberAvailable', numberAvailable - copyCount);
+            }
         }
 
         // Add the new record to the store
@@ -71,6 +81,9 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
                 // Close the window/modal
                 var window = view.up('window');
                 window.close();
+
+                movieStore = Ext.getStore('moviestore');
+                movieStore.load();
             },
             failure: function (response) {
                 movieStore.remove(newRental);
@@ -122,7 +135,16 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
                         }, {
                             xtype: 'displayfield',
                             margin: '0 0 0 10',
-                            value: 'Rental Fee: ₱' + rentalPrice
+                            value: 'Rental Price: ₱' + rentalPrice
+                        },
+                        {
+                            xtype: 'hiddenfield',
+                            name: 'numberAvailable-' + movieId,
+                            value: numberAvailable
+                        }, {
+                            xtype: 'hiddenfield',
+                            name: 'rentalPrice-' + movieId,
+                            value: rentalPrice
                         }]
                     };
 
