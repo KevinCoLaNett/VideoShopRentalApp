@@ -85,11 +85,6 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
     onEditMovieClick: function (grid, rowIndex, colIndex, item, e, record) {
         var formType = 'update'; // Set the formType value here
 
-        // Create an instance of the MovieFormView component with the formType config option
-        var movieForm = Ext.create('VideoShopRental.view.movie.MovieFormView', {
-            formType: formType
-        });
-
         var formWindow = Ext.create('Ext.window.Window', {
             title: 'Update Movie',
             layout: 'fit',

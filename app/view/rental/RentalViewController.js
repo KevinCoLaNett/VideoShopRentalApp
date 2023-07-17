@@ -59,6 +59,16 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         store.loadPage(1);
     },
 
+    listOfRentedMovies: function (value, metaData, record) {
+        var movies = [];
+        Ext.each(value, function (detail) {
+            if (detail.Movie && detail.Movie.Title) {
+                movies.push(detail.Movie.Title);
+            }
+        });
+        return movies.join(', ');
+    },
+
     onAddButtonClick: function () {
         var formType = 'add'; // Set the formType value here
 
@@ -79,14 +89,51 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         formWindow.show();
     },
 
-    listOfRentedMovies: function (value, metaData, record) {
-        var movies = [];
-        Ext.each(value, function (detail) {
-            if (detail.Movie && detail.Movie.Title) {
-                movies.push(detail.Movie.Title);
+    onEditRentalClick: function (grid, rowIndex, colIndex, item, e, record) {
+        var formType = 'update'; // Set the formType value here
+
+        var formWindow = Ext.create('Ext.window.Window', {
+            title: 'Rental Information',
+            layout: 'fit',
+            modal: true,
+            //resizable: false, // Disable window resizing
+            //draggable: false, // Disable window movement
+            items: [
+                {
+                    xtype: 'rentalformview', // Reference the form component
+                    formType: formType, //pass the formType to the form
+                    recordData: record.getData() // Pass the record data to the form
+                }
+            ]
+        });
+
+        formWindow.show();
+    },
+
+    onDeleteRentalClick: function (button, rowIndex, colIndex, item, e, record) {
+        var grid = button.up('grid'),
+            rentalStore = grid.getStore();
+
+
+        Ext.Msg.confirm('Delete Rental', 'Are you sure you want to delete this Rental?', function (btn) {
+            if (btn === 'yes') {
+                if (record !== -1) {
+                    //console.log(record);
+                    rentalStore.remove(record);
+                    rentalStore.sync({
+                        success: function () {
+                            Ext.Msg.alert('Delete Rental', 'Rental deleted successfully!');
+                            rentalStore.load();
+                        },
+                        failure: function () {
+                            Ext.Msg.alert('Delete Rental', 'Failed to delete Rental!');
+                        }
+                    });
+                } else {
+                    Ext.Msg.alert('Delete Rental', 'Rental not found');
+                }
             }
         });
-        return movies.join(', ');
     }
 
 
