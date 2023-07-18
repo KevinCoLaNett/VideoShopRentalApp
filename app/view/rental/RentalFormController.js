@@ -42,6 +42,7 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
                     ReturnDate: Ext.Date.add(new Date(), Ext.Date.DAY, 5), // Add 5 days to the current date
                     TotalRentalFee: formValues.totalRentFee,
                     CustomerId: formValues.customerId,
+                    IsCompleted: false,
                     RentalDetails: []
                 });
 

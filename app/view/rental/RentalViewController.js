@@ -7,7 +7,31 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         var rentalStore = this.getViewModel().getStore('rentals');
         rentalStore.setPageSize(15);
         rentalStore.setAutoLoad(true);
+        //this.updateAddButtonState();
     },
+
+    updateAddButtonState: function () {
+        var rentalView = this.getView(),
+            rentalStore = rentalView.getStore(),
+            customerStore = Ext.getStore('customerstore'),
+            movieStore = Ext.getStore('moviestore'),
+            addButton = rentalView.lookupReference('btnAddRental');
+
+        customerStore.on('load', function () {
+            var hasCustomers = customerStore.getCount() > 0;
+            var hasMovies = movieStore.getCount() > 0;
+            addButton.setDisabled(!hasCustomers || !hasMovies);
+        });
+
+        movieStore.on('load', function () {
+            var hasCustomers = customerStore.getCount() > 0;
+            var hasMovies = movieStore.getCount() > 0;
+            addButton.setDisabled(!hasCustomers || !hasMovies);
+        });
+
+        rentalStore.reload();
+    },
+
 
     onSearchTextKeyUp: function (field, event) {
         if (event.getKey() === Ext.event.Event.ENTER) {

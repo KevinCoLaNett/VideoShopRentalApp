@@ -9,7 +9,9 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
 
         'VideoShopRental.store.Rental',
         'VideoShopRental.view.rental.RentalViewController',
-        'VideoShopRental.view.rental.RentalViewModel'
+        'VideoShopRental.view.rental.RentalViewModel',
+        'VideoShopRental.view.movie.MovieView',
+        'VideoShopRental.view.customer.CustomerView'
     ],
 
     title: 'Rentals',
@@ -122,6 +124,8 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         afterrender: function (grid) {
             var store = grid.getViewModel().getStore('rentals');
             store.load();
+
+            grid.getController().updateAddButtonState();
         }
     },
 
