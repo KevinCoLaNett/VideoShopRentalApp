@@ -126,6 +126,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
             store.load();
 
             grid.getController().updateAddButtonState();
+            grid.getController().onActiveRentalsGridRender();
         }
     },
 

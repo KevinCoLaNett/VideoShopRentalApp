@@ -95,7 +95,7 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
                     // Update the record with the new form values
                     //console.log(formValues);
                     //console.log(recordData);
-                    //console.log(existingRecord);
+                    console.log(existingRecord);
 
                     // Set the individual properties of the existing record
                     existingRecord.set('RentalDate', recordData.RentalDate);

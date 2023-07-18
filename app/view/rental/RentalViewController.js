@@ -7,7 +7,11 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         var rentalStore = this.getViewModel().getStore('rentals');
         rentalStore.setPageSize(15);
         rentalStore.setAutoLoad(true);
-        //this.updateAddButtonState();
+    },
+
+    onActiveRentalsGridRender: function (grid) {
+        var rentalStore = this.getViewModel().getStore('rentals');
+        rentalStore.filter('IsCompleted', 'false');
     },
 
     updateAddButtonState: function () {
@@ -31,7 +35,6 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
 
         rentalStore.reload();
     },
-
 
     onSearchTextKeyUp: function (field, event) {
         if (event.getKey() === Ext.event.Event.ENTER) {
@@ -64,6 +67,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         grid.getStore().clearFilter();
         grid.getStore().getSorters().clear();
         grid.getStore().reload();
+        grid.getStore().filter('IsCompleted', 'false');
 
         //set pageSize to default value = 15
         grid.getStore().setPageSize(15);
@@ -174,7 +178,24 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
     },
 
     onReturnedRentalClick: function (button, rowIndex, colIndex, item, e, record) {
-        console.log('returned!');
-    }
+        var grid = button.up('grid'),
+            rentalStore = grid.getStore();
+        var existingRecord = rentalStore.findRecord('RentalId', record.data.RentalId);
+        //console.log(existingRecord.data.IsCompleted);
+
+        existingRecord.set('IsCompleted', true);
+
+        rentalStore.sync({
+            success: function (batch, options) {
+                Ext.Msg.alert('Update Rental', 'Rental Returned!');
+                rentalStore.reload();
+                console.log(existingRecord);
+            },
+            failure: function (batch, options) {
+                Ext.Msg.alert('Update Rental', 'Failed to update Rental!');
+            }
+        });
+    },
+
 
 });
