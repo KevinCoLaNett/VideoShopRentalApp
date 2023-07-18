@@ -70,6 +70,16 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         return movies.join(', ');
     },
 
+    listOfQuantity: function (value, metaData, record) {
+        var quantitties = [];
+        Ext.each(value, function (detail) {
+            if (detail.Quantity) {
+                quantitties.push(detail.Quantity);
+            }
+        });
+        return quantitties.join(', ');
+    },
+
     onAddButtonClick: function () {
         var formType = 'add'; // Set the formType value here
 
@@ -137,7 +147,10 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
                 }
             }
         });
-    }
+    },
 
+    onReturnedRentalClick: function (button, rowIndex, colIndex, item, e, record) {
+        console.log('returned!');
+    }
 
 });

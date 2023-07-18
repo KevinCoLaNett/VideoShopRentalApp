@@ -63,6 +63,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         { text: 'Return Date', dataIndex: 'ReturnDate', xtype: 'datecolumn', format: 'd-m-Y' },
         { text: 'Total Rental Fee', dataIndex: 'TotalRentalFee' },
         { text: 'Rented Movies', dataIndex: 'RentalDetails', renderer: 'listOfRentedMovies', flex: 1 },
+        { text: 'Quantity', dataIndex: 'RentalDetails', renderer: 'listOfQuantity'},
         {
             xtype: 'actioncolumn',
             text: 'Action',
@@ -75,13 +76,22 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
                 tooltip: 'Edit',
                 reference: 'btnEditRental',
                 handler: 'onEditRentalClick'
-            }, {
+            },
+            {
                 xtype: 'button',
                 iconCls: 'x-fa fa-trash red',
                 tooltip: 'Delete',
                 reference: 'btnDeleteRental',
                 handler: 'onDeleteRentalClick'
-            }]
+            },
+            {
+                xtype: 'button',
+                iconCls: 'x-fa fa-undo-alt',
+                tooltip: 'Returned',
+                reference: 'btnReturnedRental',
+                handler: 'onReturnedRentalClick'
+            }
+            ]
         }
     ],
 
