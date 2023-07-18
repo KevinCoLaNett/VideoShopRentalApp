@@ -70,11 +70,10 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
                 rentalStore.sync({
                     success: function (response) {
                         Ext.Msg.alert('Add Rental', 'Rental added successfully!');
-                        rentalStore.reload();
-
-                        // Reload the movie grid store
-                        var grid = Ext.ComponentQuery.query('movie')[0];
+                        var grid = Ext.ComponentQuery.query('rental')[0];
                         grid.getStore().reload();
+                        var moviegrid = Ext.ComponentQuery.query('movie')[0];
+                        moviegrid.getStore().reload();
 
                         form.reset();
                         // Close the window/modal
@@ -125,11 +124,10 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
                     rentalStore.sync({
                         success: function (batch, options) {
                             Ext.Msg.alert('Update Rental', 'Rental updated successfully!');
-                            rentalStore.reload();
-
-                            // Reload the movie grid store
-                            var grid = Ext.ComponentQuery.query('movie')[0];
+                            var grid = Ext.ComponentQuery.query('rental')[0];
                             grid.getStore().reload();
+                            var moviegrid = Ext.ComponentQuery.query('movie')[0];
+                            moviegrid.getStore().reload();
 
                             // Close the window/modal
                             var window = view.up('window');

@@ -98,9 +98,17 @@ Ext.define('VideoShopRental.view.main.Main', {
         }]
     }, {
         title: 'Done Transaction',
-        iconCls: 'fa-clipboard-check', 
+        iconCls: 'fa-clipboard-check',
+        items: [{
+            xtype: 'returnedrental'
+        }]
+    },
+    {
+        title: 'Settings',
+        iconCls: 'fa-cog',
         bind: {
             html: '{loremIpsum}'
         }
-    }]
+    }
+    ]
 });

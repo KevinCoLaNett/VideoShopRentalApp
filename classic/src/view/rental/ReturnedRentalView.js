@@ -1,6 +1,6 @@
-Ext.define('VideoShopRental.view.rental.RentalView', {
+Ext.define('VideoShopRental.view.rental.ReturnedRentalView', {
     extend: 'Ext.grid.Panel',
-    xtype: 'rental',
+    xtype: 'returnedrental',
     requires: [
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
@@ -14,7 +14,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         'VideoShopRental.view.customer.CustomerView'
     ],
 
-    title: 'Active Rentals',
+    title: 'Returned Rentals',
 
     viewModel: {
         type: 'rentalviewmodel'
@@ -62,7 +62,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
     columns: [
         { text: 'Customer Name', dataIndex: 'Customer', renderer: function (value) { return value ? value.Name : ''; }, flex: 0.5 },
         { text: 'Rental Date', dataIndex: 'RentalDate', xtype: 'datecolumn', format: 'd-m-Y' },
-        { text: 'Due Date', dataIndex: 'ReturnDate', xtype: 'datecolumn', format: 'd-m-Y' },
+        { text: 'Return Date', dataIndex: 'ReturnDate', xtype: 'datecolumn', format: 'd-m-Y' },
         { text: 'Total Rental Fee', dataIndex: 'TotalRentalFee' },
         { text: 'Rented Movies', dataIndex: 'RentalDetails', renderer: 'listOfRentedMovies', flex: 1 },
         { text: 'Quantity', dataIndex: 'RentalDetails', renderer: 'listOfQuantity'},
@@ -85,13 +85,6 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
                 tooltip: 'Delete',
                 reference: 'btnDeleteRental',
                 handler: 'onDeleteRentalClick'
-            },
-            {
-                xtype: 'button',
-                iconCls: 'x-fa fa-undo-alt',
-                tooltip: 'Returned',
-                reference: 'btnReturnedRental',
-                handler: 'onReturnedRentalClick'
             }
             ]
         }
@@ -126,7 +119,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
             store.load();
 
             grid.getController().updateAddButtonState();
-            grid.getController().onActiveRentalsGridRender();
+            grid.getController().onReturnedRentalsGridRender();
         }
     },
 

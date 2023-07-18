@@ -14,6 +14,11 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         rentalStore.filter('IsCompleted', 'false');
     },
 
+    onReturnedRentalsGridRender: function (grid) {
+        var rentalStore = this.getViewModel().getStore('rentals');
+        rentalStore.filter('IsCompleted', 'true');
+    },
+
     updateAddButtonState: function () {
         var rentalView = this.getView(),
             rentalStore = rentalView.getStore(),
@@ -32,8 +37,8 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
             var hasMovies = movieStore.getCount() > 0;
             addButton.setDisabled(!hasCustomers || !hasMovies);
         });
-
         rentalStore.reload();
+
     },
 
     onSearchTextKeyUp: function (field, event) {
@@ -67,7 +72,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         grid.getStore().clearFilter();
         grid.getStore().getSorters().clear();
         grid.getStore().reload();
-        grid.getStore().filter('IsCompleted', 'false');
+       
 
         //set pageSize to default value = 15
         grid.getStore().setPageSize(15);
@@ -80,6 +85,17 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         //clear the searchfield
         var searchText = this.lookupReference('searchText');
         searchText.setValue('');
+
+        //for specific grid
+        var xtype = grid.xtype;
+        if(xtype == 'rental'){
+            grid.getStore().filter('IsCompleted', 'false');
+        }
+        else if (xtype == 'returnedrental'){
+            grid.getStore().filter('IsCompleted', 'true');
+        }else{
+            console.log('there is something wrong');
+        }
     },
 
     onItemsPerPageChange: function (field, newValue) {
@@ -178,24 +194,56 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
     },
 
     onReturnedRentalClick: function (button, rowIndex, colIndex, item, e, record) {
-        var grid = button.up('grid'),
-            rentalStore = grid.getStore();
+        var rentalStore = Ext.getStore('rentalstore');
+        var movieStore = Ext.getStore('moviestore');
+
         var existingRecord = rentalStore.findRecord('RentalId', record.data.RentalId);
-        //console.log(existingRecord.data.IsCompleted);
 
-        existingRecord.set('IsCompleted', true);
+        if (existingRecord) {
+            var rentalDetails = existingRecord.get('RentalDetails');
 
-        rentalStore.sync({
-            success: function (batch, options) {
-                Ext.Msg.alert('Update Rental', 'Rental Returned!');
-                rentalStore.reload();
-                console.log(existingRecord);
-            },
-            failure: function (batch, options) {
-                Ext.Msg.alert('Update Rental', 'Failed to update Rental!');
+            for (var i = 0; i < rentalDetails.length; i++) {
+                var rentalDetail = rentalDetails[i];
+                var movieId = rentalDetail.Movie.MovieId;
+                var quantity = rentalDetail.Quantity;
+
+                // Retrieve the movie record from the movieStore
+                var movieRecord = movieStore.findRecord('MovieId', movieId);
+                if (movieRecord) {
+                    // Update the NumberAvailable property
+                    movieRecord.set('NumberAvailable', movieRecord.get('NumberAvailable') + quantity);
+                }
             }
-        });
+
+            // Save the changes to the movie records
+            movieStore.sync({
+                success: function (batch, options) {
+                    // Returned Rent Movie/s
+                    existingRecord.set('IsCompleted', true);
+                    existingRecord.set('ReturnDate', new Date());
+
+                    // Save the modified existingRecord to the database
+                    rentalStore.sync({
+                        success: function (batch, options) {
+                            Ext.Msg.alert('Update Rental', 'Rental Returned!');
+                            var grid = Ext.ComponentQuery.query('rental')[0];
+                            grid.getStore().reload();
+                        },
+                        failure: function (batch, options) {
+                            Ext.Msg.alert('Update Rental', 'Failed to update Rental!');
+                        }
+                    });
+
+                },
+                failure: function (batch, options) {
+                    Ext.Msg.alert('Update Rental', 'Failed to update movie records!');
+                }
+            });
+        } else {
+            console.log('Record not found');
+        }
     },
+
 
 
 });

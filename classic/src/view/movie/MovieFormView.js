@@ -55,7 +55,7 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
             emptyText: '10',
             name: 'NumberInStock',
             itemId: 'numberInStockField',
-            reference: 'numberInStockField',
+            //reference: 'numberInStockField',
             allowBlank: false
         },
         {
@@ -63,7 +63,7 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
             emptyText: '10',
             name: 'NumberAvailable',
             itemId: 'numberAvailableField',
-            reference: 'numberAvailableField',
+            //reference: 'numberAvailableField',
             allowBlank: false
         }
         ]
@@ -78,6 +78,8 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
 
     initComponent: function () {
         this.callParent(arguments);
+
+        Ext.ariaWarn = Ext.emptyFn;
 
         // Set the form field values if it's an update form
         if (this.getFormType() === 'update') {
