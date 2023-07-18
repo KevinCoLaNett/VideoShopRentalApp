@@ -33,63 +33,119 @@ Ext.define('VideoShopRental.view.rental.RentalFormController', {
         var formController = this;
         var view = formController.getView(); // Get the view instance
 
-        console.log(formValues);
+        if (form && form.isValid()) {
+            //ADD NEW RENT
+            if (formType == 'add') {
+                // Create a new instance of the Rental model with the desired data
+                var newRental = Ext.create('VideoShopRental.model.Rental', {
+                    RentalDate: new Date(),
+                    ReturnDate: Ext.Date.add(new Date(), Ext.Date.DAY, 5), // Add 5 days to the current date
+                    TotalRentalFee: formValues.totalRentFee,
+                    CustomerId: formValues.customerId,
+                    RentalDetails: []
+                });
 
-        // Create a new instance of the Rental model with the desired data
-        var newRental = Ext.create('VideoShopRental.model.Rental', {
-            RentalDate: new Date(), // Replace with the desired rental date
-            ReturnDate: new Date(), // Replace with the desired return date
-            TotalRentalFee: formValues.totalRentFee,
-            CustomerId: formValues.customerId,
-            RentalDetails: []
-        });
+                // Iterate over the movieIds from formValues and add rental details to the RentalDetails array
+                for (var i = 0; i < formValues.movieIds.length; i++) {
+                    var movieId = formValues.movieIds[i];
+                    var copyCount = formValues['copyCount-' + movieId];
+                    var movieRentalFee = formValues['rentalPrice-' + movieId] * copyCount;
 
-        // Iterate over the movieIds from formValues and add rental details to the RentalDetails array
-        for (var i = 0; i < formValues.movieIds.length; i++) {
-            var movieId = formValues.movieIds[i];
-            var copyCount = formValues['copyCount-' + movieId];
-            var movieRentalFee = formValues['rentalPrice-' + movieId] * copyCount;
+                    var rentalDetail = {
+                        MovieId: movieId,
+                        MovieRentalFee: movieRentalFee, // Replace with the desired movie rental fee
+                        Quantity: copyCount
+                    };
 
-            var rentalDetail = {
-                MovieId: movieId,
-                MovieRentalFee: movieRentalFee, // Replace with the desired movie rental fee
-                Quantity: copyCount
-            };
+                    newRental.get('RentalDetails').push(rentalDetail);
+                }
 
-            newRental.get('RentalDetails').push(rentalDetail);
+                // Add the new record to the store
+                newRental.set('RentalId', 0);
+                //console.log(newRental);
+                rentalStore.add(newRental);
 
-            // Update the numberAvailable value in the movie record
-            var movieRecord = rentalStore.findRecord('MovieId', parseInt(movieId));
-            if (movieRecord) {
-                var numberAvailable = movieRecord.get('NumberAvailable');
-                movieRecord.set('NumberAvailable', numberAvailable - copyCount);
+                // Sync the store with the server
+                rentalStore.sync({
+                    success: function (response) {
+                        Ext.Msg.alert('Add Rental', 'Rental added successfully!');
+                        rentalStore.reload();
+
+                        // Reload the movie grid store
+                        var grid = Ext.ComponentQuery.query('movie')[0];
+                        grid.getStore().reload();
+
+                        form.reset();
+                        // Close the window/modal
+                        var window = view.up('window');
+                        window.close();
+                    },
+                    failure: function (response) {
+                        movieStore.remove(newRental);
+                        Ext.Msg.alert('Add Rental', 'Failed to add Rental!');
+                    }
+                });
             }
+            else if (formType == 'update') {
+                //UPDATE RENT
+                // Find the existing record by the unique identifier
+                var existingRecord = rentalStore.findRecord('RentalId', recordData.RentalId);
+                if (existingRecord) {
+                    // Update the record with the new form values
+                    //console.log(formValues);
+                    //console.log(recordData);
+                    //console.log(existingRecord);
+
+                    // Set the individual properties of the existing record
+                    existingRecord.set('RentalDate', recordData.RentalDate);
+                    existingRecord.set('ReturnDate', recordData.ReturnDate);
+                    existingRecord.set('TotalRentalFee', formValues.totalRentFee);
+                    existingRecord.set('CustomerId', formValues.customerId);
+
+
+                    // Clear the existing rental details
+                    existingRecord.set('RentalDetails', []);
+
+                    // Iterate over the movieIds from formValues and add rental details to the RentalDetails association
+                    for (var i = 0; i < formValues.movieIds.length; i++) {
+                        var movieId = formValues.movieIds[i];
+                        var copyCount = formValues['copyCount-' + movieId];
+                        var movieRentalFee = formValues['rentalPrice-' + movieId] * copyCount;
+
+                        var rentalDetail = {
+                            MovieId: movieId,
+                            MovieRentalFee: movieRentalFee,
+                            Quantity: copyCount
+                        };
+
+                        existingRecord.get('RentalDetails').push(rentalDetail);
+                    }
+
+                    rentalStore.sync({
+                        success: function (batch, options) {
+                            Ext.Msg.alert('Update Rental', 'Rental updated successfully!');
+                            rentalStore.reload();
+
+                            // Reload the movie grid store
+                            var grid = Ext.ComponentQuery.query('movie')[0];
+                            grid.getStore().reload();
+
+                            // Close the window/modal
+                            var window = view.up('window');
+                            window.close();
+                        },
+                        failure: function (batch, options) {
+                            Ext.Msg.alert('Update Rental', 'Failed to update Rental!');
+                        }
+                    });
+                } else {
+                    console.log('Rental does not exist!');
+                }
+            } else {
+                console.log('there is something wrong!');
+            }
+
         }
-
-        // Add the new record to the store
-        newRental.set('RentalId', 0);
-        console.log(newRental);
-        rentalStore.add(newRental);
-
-        // Sync the store with the server
-        rentalStore.sync({
-            success: function (response) {
-                Ext.Msg.alert('Add Rental', 'Rental added successfully!');
-                rentalStore.load();
-                form.reset();
-
-                // Close the window/modal
-                var window = view.up('window');
-                window.close();
-
-                movieStore = Ext.getStore('moviestore');
-                movieStore.load();
-            },
-            failure: function (response) {
-                movieStore.remove(newRental);
-                Ext.Msg.alert('Add Rental', 'Failed to add Rental!');
-            }
-        });
 
     },
 

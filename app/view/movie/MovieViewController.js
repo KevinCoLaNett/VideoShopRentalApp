@@ -118,7 +118,7 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
                     movieStore.sync({
                         success: function () {
                             Ext.Msg.alert('Delete Movie', 'Movie deleted successfully!');
-                            movieStore.load();
+                            movieStore.reload();
                         },
                         failure: function () {
                             Ext.Msg.alert('Delete Movie', 'Failed to delete movie!');

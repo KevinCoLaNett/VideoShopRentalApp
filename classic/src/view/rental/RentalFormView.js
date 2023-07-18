@@ -1,6 +1,6 @@
 Ext.define('VideoShopRental.view.rental.RentalFormView', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.rentalformview',
+    xtype: 'rentalformview',
     formType: 'rental',
 
     controller: 'rentalformcontroller',
@@ -75,10 +75,10 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
                     filterPickList: true,
                     multiSelect: true,
                     tpl: Ext.create('Ext.XTemplate',
-                    '<tpl for=".">',
-                    '<div class="x-boundlist-item">{Title} - ₱{RentalPrice} - Available: {NumberAvailable} </div>',
-                    //'Movie: <span class="quantity">{[values.Title]}</span>, Available: <span class="available">{[values.NumberAvailable]}</span>, Rental Fee: <span class="rentalFee">₱{[values.RentalPrice]}</span>',
-                    '</tpl>'
+                        '<tpl for=".">',
+                        '<div class="x-boundlist-item">{Title} - ₱{RentalPrice} - Available: {NumberAvailable} </div>',
+                        //'Movie: <span class="quantity">{[values.Title]}</span>, Available: <span class="available">{[values.NumberAvailable]}</span>, Rental Fee: <span class="rentalFee">₱{[values.RentalPrice]}</span>',
+                        '</tpl>'
                     ),
                     listeners: {
                         change: 'onMovieSelectionChange'
@@ -87,6 +87,7 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
                 {
                     xtype: 'container',
                     itemId: 'copyCountContainer',
+                    name: 'countContainer',
                     layout: 'anchor',
                     defaults: {
                         xtype: 'numberfield',
@@ -111,9 +112,52 @@ Ext.define('VideoShopRental.view.rental.RentalFormView', {
     ],
 
     buttons: [{
-        text: 'Add Rent',
+        text: 'Save',
         disabled: true,
         formBind: true,
         handler: 'onSaveRentalClick'
-    }]
+    }],
+
+    initComponent: function () {
+        this.callParent(arguments);
+
+        // Set the form field values if it's an update form
+        if (this.getFormType() === 'update') {
+            this.setFormFieldValues(this.getRecordData());
+            //console.log(this.getRecordData());
+        }
+
+        //pass the formType and recordData
+        var controller = this.getController();
+        if (controller) {
+            controller.setFormType(this.getFormType());
+            controller.loadRecordData(this.getRecordData());
+        }
+
+    },
+
+    setFormFieldValues: function (recordData) {
+        var form = this.getForm();
+      
+        if (form) {
+          form.setValues(recordData);
+      
+          // Customer Name Field
+          var customerNameField = form.findField('customerId');
+          customerNameField.setValue(recordData.CustomerId);
+      
+          // Movie Details Field
+          var movieIdsField = form.findField('movieIds');
+          for (var i = 0; i < recordData.RentalDetails.length; i++) {
+            movieIdsField.addValue(recordData.RentalDetails[i].MovieId);
+          }
+      
+          // Number Fields in copyCountContainer
+          //var copyCountContainer = form.findField();
+          //console.log(form);
+        }
+      }
+      
+
+
 });

@@ -7,7 +7,7 @@ Ext.define('VideoShopRental.store.Rental', {
 
   model: 'VideoShopRental.model.Rental',
 
-  pageSize: 15,
+  //pageSize: 15,
 
   proxy: {
     type: 'rest',

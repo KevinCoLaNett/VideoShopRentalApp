@@ -123,6 +123,7 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
                     customerStore.sync({
                         success: function () {
                             Ext.Msg.alert('Delete Customer', 'Customer deleted successfully!');
+                            customerStore.reload();
                         },
                         failure: function () {
                             Ext.Msg.alert('Delete Customer', 'Failed to Customer movie');

@@ -39,6 +39,7 @@ Ext.define('VideoShopRental.view.customer.CustomerFormController', {
         customerStore.sync({
           success: function (response) {
             Ext.Msg.alert('Add Customer', 'Customer added successfully!');
+            customerStore.reload();
             customerStore.load();
             form.reset();
 
@@ -62,6 +63,7 @@ Ext.define('VideoShopRental.view.customer.CustomerFormController', {
             success: function (response) {
               Ext.Msg.alert('Update Customer', 'Customer updated successfully!');
               customerStore.load();
+              customerStore.reload();
 
               // Close the window/modal
               var window = view.up('window');

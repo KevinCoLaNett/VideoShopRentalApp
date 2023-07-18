@@ -16,15 +16,6 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
     this.recordData = recordData;
   },
 
-  onNumberAvailableChange: function (field, newValue, oldValue) {
-    var stockNumberField = this.lookupReference('numberInStockField');
-  
-    if (stockNumberField && newValue > stockNumberField.getValue()) {
-      Ext.Msg.alert('Invalid Quantity', 'Number Available cannot exceed Number in Stock.');
-      field.setValue(oldValue);
-    }
-  },
-
   onSaveMovieClick: function (button) {
     // Access the formType property
     var form = button.up('form'),
@@ -38,6 +29,16 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
 
     if (form && form.isValid()) {
 
+      var numberInStock = form.down('#numberInStockField').getValue();
+      var numberAvailable = form.down('#numberAvailableField').getValue();
+      // console.log(numberInStock);
+      // console.log(numberAvailable);
+
+      if (numberAvailable > numberInStock) {
+        Ext.Msg.alert('Invalid Quantity', 'Number Available cannot exceed Number in Stock.');
+        return console.log('Invalid Quantity');
+      }
+
       if (formType == 'add') {
         // Create a new record with the form values
         var newMovie = Ext.create('VideoShopRental.model.Movie', formValues);
@@ -48,8 +49,11 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
         movieStore.sync({
           success: function (response) {
             Ext.Msg.alert('Add Movie', 'Movie added successfully!');
-            movieStore.load();
             form.reset();
+
+            // Reload the grid store
+            var grid = Ext.ComponentQuery.query('movie')[0];
+            grid.getStore().reload();
 
             // Close the window/modal
             var window = view.up('window');
@@ -70,7 +74,9 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
           movieStore.sync({
             success: function (response) {
               Ext.Msg.alert('Update Movie', 'Movie updated successfully!');
-              movieStore.load();
+              // Reload the grid store
+              var grid = Ext.ComponentQuery.query('movie')[0];
+              grid.getStore().reload();
 
               // Close the window/modal
               var window = view.up('window');

@@ -5,6 +5,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
 
     init: function () {
         var rentalStore = this.getViewModel().getStore('rentals');
+        rentalStore.setPageSize(15);
         rentalStore.setAutoLoad(true);
     },
 
@@ -73,7 +74,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         var formType = 'add'; // Set the formType value here
 
         var formWindow = Ext.create('Ext.window.Window', {
-            title: 'Rental Information',
+            title: 'Rental Information (Add New Rent)',
             layout: 'fit',
             modal: true,
             //resizable: false, // Disable window resizing
@@ -93,7 +94,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         var formType = 'update'; // Set the formType value here
 
         var formWindow = Ext.create('Ext.window.Window', {
-            title: 'Rental Information',
+            title: 'Rental Information (Update Rent)',
             layout: 'fit',
             modal: true,
             //resizable: false, // Disable window resizing
@@ -123,7 +124,9 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
                     rentalStore.sync({
                         success: function () {
                             Ext.Msg.alert('Delete Rental', 'Rental deleted successfully!');
-                            rentalStore.load();
+                            rentalStore.reload();
+                            var grid = Ext.ComponentQuery.query('movie')[0];
+                            grid.getStore().reload();
                         },
                         failure: function () {
                             Ext.Msg.alert('Delete Rental', 'Failed to delete Rental!');

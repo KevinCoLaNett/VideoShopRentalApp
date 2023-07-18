@@ -5,6 +5,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
         'Ext.grid.column.Action',
+        'Ext.toolbar.Paging',
 
         'VideoShopRental.store.Rental',
         'VideoShopRental.view.rental.RentalViewController',
@@ -107,17 +108,17 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         ]
     },
 
+    listeners: {
+        afterrender: function (grid) {
+            var store = grid.getViewModel().getStore('rentals');
+            store.load();
+        }
+    },
+
     selModel: {
         injectCheckbox: 'first',
         checkOnly: true,
         model: 'SIMPLE',
         type: 'checkboxmodel'
     },
-
-    listeners: {
-        afterrender: function (grid) {
-            var store = grid.getViewModel().getStore('rentals');
-            store.load();
-        }
-    }
 });
