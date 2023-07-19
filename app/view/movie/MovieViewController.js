@@ -16,24 +16,6 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
     //     }
     // },
 
-    // performSearch: function () {
-    //     var searchText = this.lookupReference('searchText').getValue();
-    //     var grid = this.getView();
-
-    //     // Get the store associated with the grid
-    //     var store = grid.getStore();
-
-    //     // Apply the search filter to the store
-    //     store.clearFilter(); // Clear any previous filters
-    //     if (searchText) {
-    //         store.filterBy(function (record) {
-    //             // Modify this condition to match your search logic
-    //             var title = record.get('Title');
-    //             return title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
-    //         });
-    //     }
-    // },
-
     performSearch: function (textField) {
         var searchText = textField.getValue();
         var reference = textField.getReference();

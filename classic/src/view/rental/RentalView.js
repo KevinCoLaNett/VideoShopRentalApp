@@ -31,7 +31,23 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
             xtype: 'textfield',
             emptyText: 'Search by Customer Name',
             width: 210,
-            reference: 'searchText',
+            reference: 'Customer',
+            enableKeyEvents: true,
+            triggers: {
+                search: {
+                    cls: 'x-form-search-trigger',
+                    handler: 'performSearch'
+                }
+            },
+            listeners: {
+                keyup: 'performSearch'
+            }
+        },
+        {
+            xtype: 'textfield',
+            emptyText: 'Search by Movies',
+            width: 210,
+            reference: 'Movie',
             enableKeyEvents: true,
             triggers: {
                 search: {
@@ -120,6 +136,14 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
         ]
     },
 
+    selModel: {
+        injectCheckbox: 'first',
+        reference: 'myCheckboxModel',
+        checkOnly: true,
+        model: 'SIMPLE',
+        type: 'checkboxmodel'
+    },
+
     listeners: {
         afterrender: function (grid) {
             var store = grid.getViewModel().getStore('rentals');
@@ -128,12 +152,5 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
             grid.getController().updateAddButtonState();
             grid.getController().onActiveRentalsGridRender();
         }
-    },
-
-    selModel: {
-        injectCheckbox: 'first',
-        checkOnly: true,
-        model: 'SIMPLE',
-        type: 'checkboxmodel'
-    },
+    }
 });

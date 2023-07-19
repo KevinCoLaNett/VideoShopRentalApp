@@ -31,7 +31,23 @@ Ext.define('VideoShopRental.view.rental.ReturnedRentalView', {
             xtype: 'textfield',
             emptyText: 'Search by Customer Name',
             width: 210,
-            reference: 'searchText',
+            reference: 'Customer',
+            enableKeyEvents: true,
+            triggers: {
+                search: {
+                    cls: 'x-form-search-trigger',
+                    handler: 'performSearch'
+                }
+            },
+            listeners: {
+                keyup: 'performSearch'
+            }
+        },
+        {
+            xtype: 'textfield',
+            emptyText: 'Search by Movies',
+            width: 210,
+            reference: 'Movie',
             enableKeyEvents: true,
             triggers: {
                 search: {
@@ -65,7 +81,7 @@ Ext.define('VideoShopRental.view.rental.ReturnedRentalView', {
         { text: 'Return Date', dataIndex: 'ReturnDate', xtype: 'datecolumn', format: 'd-m-Y' },
         { text: 'Total Rental Fee', dataIndex: 'TotalRentalFee' },
         { text: 'Rented Movies', dataIndex: 'RentalDetails', renderer: 'listOfRentedMovies', flex: 1 },
-        { text: 'Quantity', dataIndex: 'RentalDetails', renderer: 'listOfQuantity'},
+        { text: 'Quantity', dataIndex: 'RentalDetails', renderer: 'listOfQuantity' },
         {
             xtype: 'actioncolumn',
             text: 'Action',

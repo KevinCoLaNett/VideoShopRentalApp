@@ -29,14 +29,13 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
 
     var numberInStock = formValues.NumberInStock;
     var numberAvailable = formValues.NumberAvailable;
-    
+
     if (numberInStock < numberAvailable) {
       Ext.Msg.alert('Invalid Quantity', 'Number Available cannot exceed Number in Stock.');
       return console.log('Invalid Quantity');
     }
 
     if (form && form.isValid()) {
-
       if (formType == 'add') {
         // Create a new record with the form values
         var newMovie = Ext.create('VideoShopRental.model.Movie', formValues);

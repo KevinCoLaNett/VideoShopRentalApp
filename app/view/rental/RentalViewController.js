@@ -48,32 +48,49 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
     //     }
     // },
 
-    performSearch: function () {
-        var searchText = this.lookupReference('searchText').getValue();
+    performSearch: function (textField) {
+        var searchText = textField.getValue();
+        var reference = textField.getReference();
         var grid = this.getView();
-    
+        var xtype = grid.xtype;
+
         // Get the store associated with the grid
         var store = grid.getStore();
-    
+
         // Apply the search filter to the store
         store.clearFilter(); // Clear any previous filters
+        if (xtype == 'rental') {
+            grid.getStore().filter('IsCompleted', 'false');
+        }
+        else if (xtype == 'returnedrental') {
+            grid.getStore().filter('IsCompleted', 'true');
+        } else {
+            console.log('there is something wrong');
+        }
+
         if (searchText) {
             store.filterBy(function (record) {
-                var xtype = grid.xtype;
                 if (xtype === 'rental') {
                     var isCompleted = record.get('IsCompleted');
                     if (!isCompleted) {
-                        var customer = record.get('Customer');
+                        var customer = record.get(reference);
                         if (customer && customer.Name) {
                             var customerName = customer.Name.toLowerCase();
                             var searchValue = searchText.toLowerCase();
+                            console.log(customer);
                             return customerName.indexOf(searchValue) !== -1;
+                        }
+                        if (reference == 'Movie') {
+                            var rentalDetails = record.get('RentalDetails');
+                            rentalDetails.forEach((detail) => {
+                                console.log(detail.Movie.Title);
+                            })
                         }
                     }
                 } else if (xtype === 'returnedrental') {
                     var isCompleted = record.get('IsCompleted');
                     if (isCompleted) {
-                        var customer = record.get('Customer');
+                        var customer = record.get(reference);
                         if (customer && customer.Name) {
                             var customerName = customer.Name.toLowerCase();
                             var searchValue = searchText.toLowerCase();
@@ -83,7 +100,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
                 } else {
                     console.log('There is something wrong');
                 }
-    
+
                 return false;
             });
         }
@@ -91,11 +108,11 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
 
     onRefreshClick: function (button) {
         var grid = button.up('grid');
+
         //reload the grid
         grid.getStore().clearFilter();
         grid.getStore().getSorters().clear();
         grid.getStore().reload();
-
 
         //set pageSize to default value = 15
         grid.getStore().setPageSize(15);
@@ -106,9 +123,10 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         itemsPerPageField.setValue(15);
 
         //clear the searchfield
-        var searchText = this.lookupReference('searchText');
-        searchText.setValue('');
-
+        var searchTextTitle = this.lookupReference('Customer');
+        var searchTextGenre = this.lookupReference('Movie');
+        searchTextTitle.setValue('');
+        searchTextGenre.setValue('');
         //for specific grid
         var xtype = grid.xtype;
         if (xtype == 'rental') {
@@ -264,9 +282,8 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
             });
         } else {
             console.log('Record not found');
+            console.log(existingRecord);
         }
     },
-
-
 
 });
