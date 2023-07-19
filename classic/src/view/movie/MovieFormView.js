@@ -33,7 +33,7 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
             fieldLabel: 'Genre',
             emptyText: 'Genre',
             name: 'Genre',
-            itemId: 'nameField',
+            //itemId: 'nameField',
             allowBlank: false
         }, {
             xtype: 'datefield',
@@ -95,12 +95,12 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
 
         // Custom vtypes for validation
         Ext.apply(Ext.form.field.VTypes, {
-            customName: function (value) {
-                // Implement your custom name validation logic here
-                // Return true if valid, false otherwise
-                return /^[A-Za-z\s]+$/.test(value);
-            },
-            customNameText: 'Invalid name. Please enter a valid name containing only letters and spaces.',
+            // customName: function (value) {
+            //     // Implement your custom name validation logic here
+            //     // Return true if valid, false otherwise
+            //     return /^[A-Za-z\s]+$/.test(value);
+            // },
+            // customNameText: 'Invalid name. Please enter a valid name containing only letters and spaces.',
 
             customRentalPrice: function (value) {
                 // Implement your custom rental price validation logic here
@@ -121,9 +121,9 @@ Ext.define('VideoShopRental.view.movie.MovieFormView', {
         });
 
         // Genre
-        var nameField = this.down('#nameField');
-        nameField.vtype = 'customName';
-        nameField.vtypeText = 'Invalid name. Please enter a valid name containing only letters and spaces.';
+        // var nameField = this.down('#nameField');
+        // nameField.vtype = 'customName';
+        // nameField.vtypeText = 'Invalid name. Please enter a valid name containing only letters and spaces.';
 
         // Rental Price
         var rentalPriceField = this.down('#rentalPriceField');

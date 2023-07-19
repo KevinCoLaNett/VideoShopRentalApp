@@ -33,9 +33,10 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
     tbar: [
         {
             xtype: 'textfield',
+            name: "Title",
             emptyText: 'Search by Title',
             width: 200,
-            reference: 'searchText',
+            reference: 'Title',
             enableKeyEvents: true,
             triggers: {
                 search: {
@@ -44,7 +45,24 @@ Ext.define('VideoShopRental.view.movie.MovieView', {
                 }
             },
             listeners: {
-                keyup: 'onSearchTextKeyUp'
+                keyup: 'performSearch'
+            }
+        },
+        {
+            xtype: 'textfield',
+            name: "Genre",
+            emptyText: 'Search by Genre',
+            width: 200,
+            reference: 'Genre',
+            enableKeyEvents: true,
+            triggers: {
+                search: {
+                    cls: 'x-form-search-trigger',
+                    handler: 'performSearch'
+                }
+            },
+            listeners: {
+                keyup: 'performSearch'
             }
         },
         {

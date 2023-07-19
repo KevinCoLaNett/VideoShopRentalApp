@@ -42,7 +42,7 @@ Ext.define('VideoShopRental.view.customer.CustomerView', {
                 }
             },
             listeners: {
-                keyup: 'onSearchTextKeyUp'
+                keyup: 'performSearch'
             }
         },
         {

@@ -9,31 +9,58 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
         movieStore.setAutoLoad(true);
     },
 
-    onSearchTextKeyUp: function (field, event) {
-        if (event.getKey() === Ext.event.Event.ENTER) {
-            var searchText = field.getValue();
-            this.performSearch(searchText);
-        }
-    },
+    // onSearchTextKeyUp: function (field, event) {
+    //     if (event.getKey() === Ext.event.Event.ENTER) {
+    //         var searchText = field.getValue();
+    //         this.performSearch(searchText);
+    //     }
+    // },
 
-    performSearch: function () {
-        var searchText = this.lookupReference('searchText').getValue();
+    // performSearch: function () {
+    //     var searchText = this.lookupReference('searchText').getValue();
+    //     var grid = this.getView();
+
+    //     // Get the store associated with the grid
+    //     var store = grid.getStore();
+
+    //     // Apply the search filter to the store
+    //     store.clearFilter(); // Clear any previous filters
+    //     if (searchText) {
+    //         store.filterBy(function (record) {
+    //             // Modify this condition to match your search logic
+    //             var title = record.get('Title');
+    //             return title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+    //         });
+    //     }
+    // },
+
+    performSearch: function (textField) {
+        var searchText = textField.getValue();
+        var reference = textField.getReference();
         var grid = this.getView();
-
-        // Get the store associated with the grid
         var store = grid.getStore();
-
+    
         // Apply the search filter to the store
-        store.clearFilter(); // Clear any previous filters
         if (searchText) {
+            store.clearFilter(); // Clear any previous filters
+    
             store.filterBy(function (record) {
-                // Modify this condition to match your search logic
-                var title = record.get('Title');
-                return title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+                var value = record.get(reference);
+    
+                if (value && searchText) {
+                    var lowerValue = value.toLowerCase();
+                    var lowerSearchText = searchText.toLowerCase();
+    
+                    return lowerValue.indexOf(lowerSearchText) !== -1;
+                }
+    
+                return false;
             });
+        } else {
+            store.clearFilter();
         }
-    },
-
+    },    
+    
     onRefreshClick: function (button) {
         var grid = button.up('grid');
         //reload the grid
@@ -50,8 +77,10 @@ Ext.define('VideoShopRental.view.movie.MovieViewController', {
         itemsPerPageField.setValue(15);
 
         //clear the searchfield
-        var searchText = this.lookupReference('searchText');
-        searchText.setValue('');
+        var searchTextTitle = this.lookupReference('Title');
+        var searchTextGenre = this.lookupReference('Genre');
+        searchTextTitle.setValue('');
+        searchTextGenre.setValue('');
     },
 
     onItemsPerPageChange: function (field, newValue) {

@@ -9,12 +9,12 @@ Ext.define('VideoShopRental.view.customer.CustomerViewController', {
         customerStore.setAutoLoad(true);
     },
 
-    onSearchTextKeyUp: function (field, event) {
-        if (event.getKey() === Ext.event.Event.ENTER) {
-            var searchText = field.getValue();
-            this.performSearch(searchText);
-        }
-    },
+    // onSearchTextKeyUp: function (field, event) {
+    //     if (event.getKey() === Ext.event.Event.ENTER) {
+    //         var searchText = field.getValue();
+    //         this.performSearch(searchText);
+    //     }
+    // },
 
     performSearch: function () {
         var searchText = this.lookupReference('searchText').getValue();

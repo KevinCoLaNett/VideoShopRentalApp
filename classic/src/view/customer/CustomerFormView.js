@@ -44,7 +44,7 @@ Ext.define('VideoShopRental.view.customer.CustomerFormView', {
     }, 
     {
       fieldLabel: 'Contact Number',
-      emptyText: '9453456789',
+      emptyText: '09453456789',
       name: 'ContactNumber',
       itemId: 'numberField',
       allowBlank: false
