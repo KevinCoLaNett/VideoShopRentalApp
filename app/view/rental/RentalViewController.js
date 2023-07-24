@@ -4,19 +4,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
     alias: 'controller.rentalviewcontroller',
 
     init: function () {
-        var rentalStore = this.getViewModel().getStore('rentals');
-        rentalStore.setPageSize(15);
-        rentalStore.setAutoLoad(true);
-    },
-
-    onActiveRentalsGridRender: function (grid) {
-        var rentalStore = this.getViewModel().getStore('rentals');
-        rentalStore.filter('IsCompleted', 'false');
-    },
-
-    onReturnedRentalsGridRender: function (grid) {
-        var rentalStore = this.getViewModel().getStore('rentals');
-        rentalStore.filter('IsCompleted', 'true');
+        
     },
 
     updateAddButtonState: function () {
@@ -110,7 +98,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
         var grid = button.up('grid');
 
         //reload the grid
-        grid.getStore().clearFilter();
+        //grid.getStore().clearFilter();
         grid.getStore().getSorters().clear();
         grid.getStore().reload();
 
@@ -235,7 +223,11 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
     },
 
     onReturnedRentalClick: function (button, rowIndex, colIndex, item, e, record) {
-        var rentalStore = Ext.getStore('rentalstore');
+        //var rentalStore = Ext.getStore('rentalstore');
+        var rentalViewModel = this.getViewModel();
+        var rentalStore = rentalViewModel.getStore('rentalStore');
+
+    
         var movieStore = Ext.getStore('moviestore');
 
         var existingRecord = rentalStore.findRecord('RentalId', record.data.RentalId);
@@ -267,8 +259,7 @@ Ext.define('VideoShopRental.view.rental.RentalViewController', {
                     rentalStore.sync({
                         success: function (batch, options) {
                             Ext.Msg.alert('Update Rental', 'Rental Returned!');
-                            var grid = Ext.ComponentQuery.query('rental')[0];
-                            grid.getStore().reload();
+                            rentalStore.reload();
                         },
                         failure: function (batch, options) {
                             Ext.Msg.alert('Update Rental', 'Failed to update Rental!');

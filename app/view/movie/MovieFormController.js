@@ -91,48 +91,5 @@ Ext.define('VideoShopRental.view.movie.MovieFormController', {
       }
     }
 
-    // //Add new movie
-    // if (formType === 'add') {
-    //   var newMovie = Ext.create('VideoShopRental.model.Movie');
-    //   newMovie.set(formValues);
-    //   newMovie.set('MovieId', 0);
-
-    //   movieStore.add(newMovie);
-    //   //console.log(newMovie);
-
-    //   movieStore.sync({
-    //     success: function (response) {
-    //       Ext.Msg.alert('Add Movie', 'Movie added successfully!');
-    //       movieStore.load();
-    //       form.reset();
-    //     },
-    //     failure: function (response) {
-    //       movieStore.remove(newMovie);
-    //       Ext.Msg.alert('Add Movie', 'Failed to add Movie!');
-    //     }
-    //   });
-    // }
-
-    // //Update movie
-    // else if (formType === 'update') {
-    //   //console.log(recordData);
-    //   // Find the existing record by the unique identifier
-    //   var existingRecord = movieStore.findRecord('MovieId', recordData.MovieId);
-    //   if (existingRecord) {
-    //     existingRecord.set(formValues);
-    //     movieStore.sync({
-    //       success: function (response) {
-    //         Ext.Msg.alert('Add Movie', 'Movie updated successfully!');
-    //         movieStore.load();
-    //       },
-    //       failure: function (response) {
-    //         movieStore.remove(newMovie);
-    //         Ext.Msg.alert('Add Movie', 'Failed to update Movie!');
-    //       }
-    //     });
-    //   } else {
-    //     console.log('movie does not exist!')
-    //   }
-    // }
   }
 });

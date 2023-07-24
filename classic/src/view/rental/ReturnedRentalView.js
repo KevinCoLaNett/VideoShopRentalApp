@@ -21,7 +21,7 @@ Ext.define('VideoShopRental.view.rental.ReturnedRentalView', {
     },
 
     bind: {
-        store: '{rentals}'
+        store: '{rentalStore}'
     },
 
     controller: 'rentalviewcontroller',
@@ -129,20 +129,18 @@ Ext.define('VideoShopRental.view.rental.ReturnedRentalView', {
         ]
     },
 
-    listeners: {
-        afterrender: function (grid) {
-            var store = grid.getViewModel().getStore('rentals');
-            store.load();
-
-            grid.getController().updateAddButtonState();
-            grid.getController().onReturnedRentalsGridRender();
-        }
-    },
-
     selModel: {
         injectCheckbox: 'first',
         checkOnly: true,
         model: 'SIMPLE',
         type: 'checkboxmodel'
+    },
+
+    listeners: {
+        afterrender: function (grid) {
+            grid.getController().updateAddButtonState();
+            var viewModel = grid.getViewModel();
+            viewModel.loadRentalsByType(true); // Load returned rentals
+        }
     },
 });

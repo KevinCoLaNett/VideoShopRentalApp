@@ -21,7 +21,7 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
     },
 
     bind: {
-        store: '{rentals}'
+        store: '{rentalStore}'
     },
 
     controller: 'rentalviewcontroller',
@@ -146,11 +146,9 @@ Ext.define('VideoShopRental.view.rental.RentalView', {
 
     listeners: {
         afterrender: function (grid) {
-            var store = grid.getViewModel().getStore('rentals');
-            store.load();
-
             grid.getController().updateAddButtonState();
-            grid.getController().onActiveRentalsGridRender();
+            var viewModel = grid.getViewModel();
+            viewModel.loadRentalsByType(false); // Load active rentals
         }
     }
 });
